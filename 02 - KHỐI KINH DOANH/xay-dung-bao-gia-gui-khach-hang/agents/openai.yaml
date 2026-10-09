@@ -1,0 +1,6 @@
+interface:
+  display_name: "Xây dựng báo giá gửi khách hàng"
+  short_description: "Lập và đối chiếu báo giá nháp theo nguồn được cung cấp"
+  default_prompt: "Dùng $xay-dung-bao-gia-gui-khach-hang để lập báo giá nháp và nêu rõ sai khác, dữ liệu còn thiếu."
+policy:
+  allow_implicit_invocation: true

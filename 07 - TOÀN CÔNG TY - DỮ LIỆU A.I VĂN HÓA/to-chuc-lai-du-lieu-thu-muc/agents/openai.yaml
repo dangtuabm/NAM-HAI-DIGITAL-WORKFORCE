@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tổ chức lại dữ liệu thư mục"
+  short_description: "Đề xuất cây thư mục và quy tắc tên ảnh"
+  default_prompt: "Đối chiếu tài liệu chính thức được cung cấp, lập sơ đồ thư mục theo nhà cung cấp, loại máy, dòng máy và model, kèm nguồn và quy tắc tên ảnh."

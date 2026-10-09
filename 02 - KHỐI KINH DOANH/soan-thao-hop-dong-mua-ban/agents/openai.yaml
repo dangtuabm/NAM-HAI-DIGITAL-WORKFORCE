@@ -1,0 +1,6 @@
+interface:
+  display_name: "SOẠN THẢO HỢP ĐỒNG MUA BÁN"
+  short_description: "Soạn hợp đồng theo mẫu, rà khách hàng, giá và thuế"
+  default_prompt: "Dùng $soan-thao-hop-dong-mua-ban để chuẩn bị hợp đồng bán hàng nội địa theo mẫu Nam Hải CNC, rà khách hàng, giá và thuế, trình nội dung để duyệt."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,64 @@
+{
+  "model_id": "MINH-HOA-BIEN-LOI-NHUAN-1-MAY",
+  "_ghi_chu": "[Minh họa] Mọi số dưới đây là ví dụ để chạy thử công thức, KHÔNG phải số của Nam Hải CNC. Giá nhập, tỷ giá, thuế suất, chi phí triển khai, giá bán, biên mục tiêu và biên sàn phải lấy từ nguồn có ngày và người có thẩm quyền trước khi dùng. Tỷ lệ ghi dạng thập phân: 0.15 = 15%.",
+  "drivers": {
+    "fob_usd":            {"unit": "USD", "min": 40000, "max": 60000, "source_id": "GIA-DINH-1 báo giá nhà cung cấp"},
+    "freight_usd":        {"unit": "USD", "min": 2000, "max": 6000, "source_id": "GIA-DINH-2 báo giá cước"},
+    "insurance_usd":      {"unit": "USD", "min": 200, "max": 600, "source_id": "GIA-DINH-3"},
+    "fx":                 {"unit": "VND/USD", "min": 24000, "max": 27500, "source_id": "GIA-DINH-4 loại tỷ giá do Kế toán chọn"},
+    "duty_rate":          {"unit": "ty le", "min": 0.0, "max": 0.2, "source_id": "GIA-DINH-5 chờ Kế toán xác nhận"},
+    "vat_rate":           {"unit": "ty le", "min": 0.0, "max": 0.15, "source_id": "GIA-DINH-6 chờ Kế toán xác nhận"},
+    "vat_khong_khau_tru": {"unit": "0 hoac 1", "min": 0, "max": 1, "source_id": "GIA-DINH-7 Kế toán quyết; 0 = VAT nhập khẩu được khấu trừ"},
+    "local_cost_vnd":     {"unit": "VND", "min": 20000000, "max": 80000000, "source_id": "GIA-DINH-8 phí cảng, giao nhận"},
+    "other_fee_vnd":      {"unit": "VND", "min": 0, "max": 40000000, "source_id": "GIA-DINH-9 phí ngân hàng, chứng từ"},
+    "lap_dat_vnd":        {"unit": "VND", "min": 0, "max": 100000000, "source_id": "GIA-DINH-10 Kỹ thuật ước tính"},
+    "van_chuyen_khach_vnd": {"unit": "VND", "min": 0, "max": 60000000, "source_id": "GIA-DINH-11 kho đến xưởng khách"},
+    "dao_tao_vnd":        {"unit": "VND", "min": 0, "max": 40000000, "source_id": "GIA-DINH-12 Kỹ thuật ước tính"},
+    "chay_thu_vnd":       {"unit": "VND", "min": 0, "max": 30000000, "source_id": "GIA-DINH-13 vật tư chạy thử"},
+    "tai_chinh_vnd":      {"unit": "VND", "min": 0, "max": 60000000, "source_id": "GIA-DINH-14 lãi vay, phí bảo lãnh"},
+    "khac_vnd":           {"unit": "VND", "min": 0, "max": 50000000, "source_id": "GIA-DINH-15"},
+    "bao_hanh_rate":      {"unit": "ty le tren gia ban", "min": 0.0, "max": 0.1, "source_id": "GIA-DINH-16 người có thẩm quyền đặt"},
+    "gia_niem_yet_vnd":   {"unit": "VND chua VAT", "min": 1500000000, "max": 2500000000, "source_id": "GIA-DINH-17 giá bán đề xuất"},
+    "chiet_khau":         {"unit": "ty le", "min": 0.0, "max": 0.2, "source_id": "GIA-DINH-18 mức khách đề nghị"},
+    "bien_muc_tieu":      {"unit": "ty le", "min": 0.0, "max": 0.5, "source_id": "GIA-DINH-19 người có thẩm quyền đặt"},
+    "bien_san":           {"unit": "ty le", "min": 0.0, "max": 0.5, "source_id": "GIA-DINH-20 người có thẩm quyền đặt"}
+  },
+  "equations": [
+    {"id": "cif_usd", "formula": "fob_usd + freight_usd + insurance_usd"},
+    {"id": "cif_vnd", "formula": "cif_usd * fx"},
+    {"id": "duty_vnd", "formula": "cif_vnd * duty_rate"},
+    {"id": "vat_nk_vnd", "formula": "(cif_vnd + duty_vnd) * vat_rate"},
+    {"id": "gia_von_ve_kho", "formula": "cif_vnd + duty_vnd + local_cost_vnd + other_fee_vnd + vat_nk_vnd * vat_khong_khau_tru"},
+    {"id": "chi_phi_trien_khai", "formula": "lap_dat_vnd + van_chuyen_khach_vnd + dao_tao_vnd + chay_thu_vnd + tai_chinh_vnd + khac_vnd"},
+    {"id": "gia_ban_thuc_thu", "formula": "gia_niem_yet_vnd * (1 - chiet_khau)"},
+    {"id": "bao_hanh_du_phong", "formula": "gia_ban_thuc_thu * bao_hanh_rate"},
+    {"id": "tong_gia_von", "formula": "gia_von_ve_kho + chi_phi_trien_khai + bao_hanh_du_phong"},
+    {"id": "lai_gop", "formula": "gia_ban_thuc_thu - tong_gia_von"},
+    {"id": "bien_gop", "formula": "lai_gop / gia_ban_thuc_thu"},
+    {"id": "markup", "formula": "lai_gop / tong_gia_von"},
+    {"id": "gia_ban_toi_thieu", "formula": "(gia_von_ve_kho + chi_phi_trien_khai) / (1 - bien_muc_tieu - bao_hanh_rate)"},
+    {"id": "giam_gia_toi_da", "formula": "1 - gia_ban_toi_thieu / gia_niem_yet_vnd"},
+    {"id": "giam_gia_toi_da_vnd", "formula": "gia_niem_yet_vnd - gia_ban_toi_thieu"},
+    {"id": "chenh_muc_tieu", "formula": "bien_gop - bien_muc_tieu"},
+    {"id": "chenh_san", "formula": "bien_gop - bien_san"}
+  ],
+  "outputs": ["gia_von_ve_kho", "chi_phi_trien_khai", "bao_hanh_du_phong", "tong_gia_von", "gia_ban_thuc_thu", "lai_gop", "bien_gop", "markup", "gia_ban_toi_thieu", "giam_gia_toi_da", "giam_gia_toi_da_vnd", "chenh_muc_tieu", "chenh_san"],
+  "scenarios": [
+    {"id": "THUAN-LOI", "values": {"fob_usd": 50000, "freight_usd": 2500, "insurance_usd": 250, "fx": 24500, "duty_rate": 0.05, "vat_rate": 0.1, "vat_khong_khau_tru": 0, "local_cost_vnd": 35000000, "other_fee_vnd": 8000000, "lap_dat_vnd": 30000000, "van_chuyen_khach_vnd": 15000000, "dao_tao_vnd": 10000000, "chay_thu_vnd": 5000000, "tai_chinh_vnd": 12000000, "khac_vnd": 0, "bao_hanh_rate": 0.02, "gia_niem_yet_vnd": 1950000000, "chiet_khau": 0.03, "bien_muc_tieu": 0.15, "bien_san": 0.1}},
+    {"id": "CO-SO", "values": {"fob_usd": 50000, "freight_usd": 3000, "insurance_usd": 300, "fx": 25000, "duty_rate": 0.05, "vat_rate": 0.1, "vat_khong_khau_tru": 0, "local_cost_vnd": 40000000, "other_fee_vnd": 10000000, "lap_dat_vnd": 30000000, "van_chuyen_khach_vnd": 15000000, "dao_tao_vnd": 10000000, "chay_thu_vnd": 5000000, "tai_chinh_vnd": 12000000, "khac_vnd": 0, "bao_hanh_rate": 0.02, "gia_niem_yet_vnd": 1950000000, "chiet_khau": 0.03, "bien_muc_tieu": 0.15, "bien_san": 0.1}},
+    {"id": "BAT-LOI", "values": {"fob_usd": 50000, "freight_usd": 5000, "insurance_usd": 500, "fx": 26500, "duty_rate": 0.05, "vat_rate": 0.1, "vat_khong_khau_tru": 0, "local_cost_vnd": 55000000, "other_fee_vnd": 20000000, "lap_dat_vnd": 40000000, "van_chuyen_khach_vnd": 20000000, "dao_tao_vnd": 10000000, "chay_thu_vnd": 8000000, "tai_chinh_vnd": 20000000, "khac_vnd": 0, "bao_hanh_rate": 0.02, "gia_niem_yet_vnd": 1950000000, "chiet_khau": 0.03, "bien_muc_tieu": 0.15, "bien_san": 0.1}}
+  ],
+  "sensitivity": [
+    {"scenario": "CO-SO", "driver": "fx", "values": [24000, 24500, 25000, 25500, 26000, 26500, 27000]},
+    {"scenario": "CO-SO", "driver": "chiet_khau", "values": [0.0, 0.03, 0.05, 0.08, 0.1]}
+  ],
+  "break_even": [
+    {"scenario": "CO-SO", "driver": "fx", "output": "chenh_muc_tieu", "target": 0, "low": 24000, "high": 27500},
+    {"scenario": "CO-SO", "driver": "chiet_khau", "output": "chenh_san", "target": 0, "low": 0.0, "high": 0.2}
+  ],
+  "triggers": [
+    {"id": "VANG-DUOI-BIEN-MUC-TIEU", "metric": "chenh_muc_tieu", "operator": "<", "threshold": 0},
+    {"id": "DO-DUOI-BIEN-SAN", "metric": "chenh_san", "operator": "<", "threshold": 0},
+    {"id": "DO-LO-GOP", "metric": "lai_gop", "operator": "<", "threshold": 0}
+  ]
+}

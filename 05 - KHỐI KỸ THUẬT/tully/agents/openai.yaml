@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tully"
+  short_description: "Tư vấn, thiết kế sơ bộ và bản vẽ dao/cối chấn"
+  default_prompt: "Dùng $tully để tư vấn hoặc lập bản vẽ sơ bộ dao/cối chấn từ dữ liệu, bản vẽ, vật liệu và máy tôi cung cấp."

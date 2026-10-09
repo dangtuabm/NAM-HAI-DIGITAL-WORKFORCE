@@ -1,0 +1,6 @@
+interface:
+  display_name: "XÂY DỰNG TÀI LIỆU BÁN HÀNG SME"
+  short_description: "Tài liệu bán hàng SME và huấn luyện Kinh doanh"
+  default_prompt: "Dùng $xay-dung-tai-lieu-ban-hang-sme để tạo tài liệu bán hàng SME và hướng dẫn đội Kinh doanh sử dụng."
+policy:
+  allow_implicit_invocation: true

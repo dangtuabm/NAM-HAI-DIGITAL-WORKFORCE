@@ -1,0 +1,6 @@
+interface:
+  display_name: "Khai thác nhu cầu đầu tư thiết bị"
+  short_description: "Chuẩn hóa nhu cầu mua thiết bị theo dạng CRM"
+  default_prompt: "Dùng $khai-thac-nhu-cau-dau-tu-thiet-bi để tổng hợp nhu cầu đầu tư thiết bị từ thông tin tôi cung cấp."
+policy:
+  allow_implicit_invocation: true

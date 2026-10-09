@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tư vấn máy theo nhu cầu"
+  short_description: "Đề xuất model máy từ nhu cầu và dữ liệu kỹ thuật"
+  default_prompt: "Phân tích nhu cầu và hồ sơ kỹ thuật được cung cấp, rồi đề xuất phương án máy có căn cứ cho Kinh doanh xem xét."

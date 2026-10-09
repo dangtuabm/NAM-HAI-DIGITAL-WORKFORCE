@@ -1,0 +1,1197 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mẫu tài liệu giới thiệu sản phẩm A4 dọc 30 trang của Nam Hải CNC">
+  <title>Mẫu tài liệu giới thiệu sản phẩm A4 | Nam Hải CNC</title>
+  <style>
+    :root {
+      --navy-950: #081624;
+      --navy-900: #0d2238;
+      --navy-800: #173a60;
+      --navy-700: #264e78;
+      --blue-500: #4d96c8;
+      --blue-300: #8dc4e6;
+      --ice-100: #eaf2f8;
+      --paper: #f7f9fb;
+      --white: #ffffff;
+      --ink: #121a22;
+      --muted: #5f6b76;
+      --line: rgba(23, 58, 96, 0.18);
+      --shadow: 0 28px 72px rgba(0, 0, 0, 0.34);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 8%, rgba(77, 150, 200, 0.2), transparent 28%),
+        #07111c;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+    button { font: inherit; }
+
+    .viewport {
+      width: 100vw;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+    .stage {
+      position: relative;
+      width: 794px;
+      height: 1123px;
+      transform-origin: center center;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+    .page {
+      position: absolute;
+      inset: 0;
+      display: none;
+      overflow: hidden;
+      isolation: isolate;
+      background: var(--paper);
+    }
+    .page.active { display: block; }
+    .page > * { position: relative; z-index: 2; }
+
+    .page.light {
+      background:
+        linear-gradient(90deg, transparent 0 72%, rgba(77, 150, 200, 0.045) 72% 100%),
+        radial-gradient(circle at 90% 9%, rgba(77, 150, 200, 0.11), transparent 27%),
+        repeating-linear-gradient(0deg, rgba(13, 34, 56, 0.014) 0 1px, transparent 1px 7px),
+        linear-gradient(135deg, #fbfcfd 0%, #f5f8fa 58%, #edf3f7 100%);
+    }
+    .page.dark {
+      color: var(--white);
+      background:
+        radial-gradient(circle at 82% 12%, rgba(77, 150, 200, 0.27), transparent 32%),
+        linear-gradient(116deg, transparent 0 60%, rgba(141, 196, 230, 0.055) 60.1% 60.35%, transparent 60.45%),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.014) 0 1px, transparent 1px 8px),
+        linear-gradient(145deg, #071625, #102f4d 68%, #173a60);
+    }
+    .page.blueprint {
+      color: var(--white);
+      background-color: var(--navy-900);
+      background-image:
+        linear-gradient(rgba(141, 196, 230, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(141, 196, 230, 0.07) 1px, transparent 1px),
+        repeating-linear-gradient(135deg, transparent 0 18px, rgba(255, 255, 255, 0.014) 18px 19px),
+        radial-gradient(circle at 82% 64%, rgba(77, 150, 200, 0.22), transparent 34%);
+      background-size: 36px 36px, 36px 36px, auto, auto;
+    }
+
+    .page::before,
+    .page::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .page::before {
+      right: -154px;
+      bottom: -175px;
+      width: 410px;
+      height: 410px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, transparent 0 31%, rgba(23, 58, 96, 0.09) 31.5% 32.2%, transparent 32.7% 51%, rgba(77, 150, 200, 0.13) 51.5% 52.2%, transparent 52.7%),
+        repeating-conic-gradient(from -2deg, rgba(23, 58, 96, 0.08) 0 3deg, transparent 3deg 11deg);
+      -webkit-mask: radial-gradient(circle, transparent 0 24%, #000 25% 62%, transparent 63%);
+      mask: radial-gradient(circle, transparent 0 24%, #000 25% 62%, transparent 63%);
+      opacity: 0.65;
+      transform: rotate(-8deg);
+    }
+    .page::after {
+      top: 108px;
+      right: 44px;
+      width: 205px;
+      height: 18px;
+      background:
+        linear-gradient(rgba(23, 58, 96, 0.24), rgba(23, 58, 96, 0.24)) center / 100% 1px no-repeat,
+        repeating-linear-gradient(90deg, transparent 0 17px, rgba(23, 58, 96, 0.28) 17px 18px) bottom / 100% 7px no-repeat;
+      opacity: 0.34;
+      z-index: 1;
+    }
+    .page.dark::before,
+    .page.blueprint::before {
+      background:
+        radial-gradient(circle, transparent 0 31%, rgba(141, 196, 230, 0.11) 31.5% 32.2%, transparent 32.7% 51%, rgba(141, 196, 230, 0.14) 51.5% 52.2%, transparent 52.7%),
+        repeating-conic-gradient(from -2deg, rgba(141, 196, 230, 0.09) 0 3deg, transparent 3deg 11deg);
+    }
+    .page.dark::after,
+    .page.blueprint::after {
+      background:
+        linear-gradient(rgba(141, 196, 230, 0.28), rgba(141, 196, 230, 0.28)) center / 100% 1px no-repeat,
+        repeating-linear-gradient(90deg, transparent 0 17px, rgba(141, 196, 230, 0.3) 17px 18px) bottom / 100% 7px no-repeat;
+    }
+    .page:nth-of-type(4n + 2)::before { right: auto; left: -175px; transform: rotate(12deg); }
+    .page:nth-of-type(3n)::after { top: auto; bottom: 58px; }
+
+    .brand-rail {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      background: linear-gradient(180deg, var(--blue-300), var(--blue-500) 52%, var(--navy-800));
+      box-shadow: 4px 0 18px rgba(23, 58, 96, 0.12);
+      overflow: hidden;
+    }
+    .brand-rail::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(180deg, transparent 0 25px, rgba(255, 255, 255, 0.38) 25px 27px);
+      opacity: 0.45;
+    }
+
+    .page-header {
+      position: absolute;
+      left: 58px;
+      right: 54px;
+      top: 34px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+    .dark .page-header,
+    .blueprint .page-header { border-color: rgba(255, 255, 255, 0.15); }
+    .running-title {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .dark .running-title,
+    .blueprint .running-title { color: rgba(255, 255, 255, 0.56); }
+    .logo {
+      width: 150px;
+      height: 47px;
+      object-fit: contain;
+      filter: drop-shadow(0 5px 10px rgba(23, 58, 96, 0.13));
+    }
+    .dark .logo,
+    .blueprint .logo {
+      filter: drop-shadow(0 0 1px rgba(255,255,255,0.85)) drop-shadow(0 4px 10px rgba(0,0,0,0.25));
+    }
+    .page-main {
+      position: absolute;
+      left: 58px;
+      right: 54px;
+      top: 118px;
+      bottom: 64px;
+    }
+    .page-footer {
+      position: absolute;
+      left: 58px;
+      right: 54px;
+      bottom: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .dark .page-footer,
+    .blueprint .page-footer { color: rgba(255, 255, 255, 0.52); }
+    .page-number { display: flex; align-items: center; gap: 10px; font-weight: 800; }
+    .page-number::before { content: ""; width: 32px; height: 2px; background: var(--blue-500); }
+
+    h1, h2, h3, h4, p { margin-top: 0; }
+    h1, h2, h3, h4 {
+      font-family: Bahnschrift, "Arial Narrow", "Segoe UI", sans-serif;
+      letter-spacing: -0.025em;
+    }
+    h1 { font-size: 52px; line-height: 0.98; margin-bottom: 20px; }
+    h2 { font-size: 34px; line-height: 1.08; margin-bottom: 18px; }
+    h3 { font-size: 21px; line-height: 1.15; margin-bottom: 9px; }
+    h4 { font-size: 15px; line-height: 1.2; margin-bottom: 7px; }
+    p { font-size: 15px; line-height: 1.55; margin-bottom: 14px; }
+    .small { font-size: 11px; line-height: 1.45; }
+    .muted { color: var(--muted); }
+    .dark .muted,
+    .blueprint .muted { color: rgba(255,255,255,0.64); }
+    .eyebrow,
+    .section-label {
+      color: var(--blue-500);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .dark .eyebrow,
+    .dark .section-label,
+    .blueprint .eyebrow,
+    .blueprint .section-label { color: var(--blue-300); }
+    .section-label { margin-bottom: 10px; }
+    .accent-line { width: 66px; height: 5px; background: var(--blue-500); margin: 18px 0 22px; }
+    .rule { height: 1px; background: var(--line); }
+    .dark .rule, .blueprint .rule { background: rgba(255,255,255,0.16); }
+    .lead { font-size: 18px; line-height: 1.5; }
+    .callout {
+      padding: 18px 20px;
+      border-left: 5px solid var(--blue-500);
+      background: rgba(77, 150, 200, 0.08);
+      color: var(--navy-800);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .dark .callout, .blueprint .callout { color: #fff; background: rgba(141, 196, 230, 0.1); }
+
+    [data-editable] { outline: none; }
+    body.editing [data-editable] {
+      background: rgba(77, 150, 200, 0.11);
+      box-shadow: inset 0 0 0 1px rgba(77, 150, 200, 0.38);
+      border-radius: 2px;
+      cursor: text;
+    }
+    body.editing [data-editable]:focus {
+      background: rgba(77, 150, 200, 0.17);
+      box-shadow: inset 0 0 0 2px var(--blue-500);
+    }
+
+    .media-slot {
+      position: relative;
+      overflow: hidden;
+      min-height: 150px;
+      color: var(--navy-700);
+      cursor: copy;
+      border: 1px solid rgba(77, 150, 200, 0.32);
+      background:
+        linear-gradient(135deg, rgba(77, 150, 200, 0.2), rgba(23, 58, 96, 0.05)),
+        repeating-linear-gradient(135deg, transparent 0 20px, rgba(77, 150, 200, 0.05) 20px 21px);
+      background-size: cover;
+      background-position: center;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.3), 0 14px 34px rgba(23,58,96,0.08);
+    }
+    .dark .media-slot,
+    .blueprint .media-slot {
+      color: rgba(255,255,255,0.78);
+      border-color: rgba(141,196,230,0.34);
+      background:
+        linear-gradient(135deg, rgba(77,150,200,0.2), rgba(255,255,255,0.03)),
+        repeating-linear-gradient(135deg, transparent 0 20px, rgba(255,255,255,0.04) 20px 21px);
+    }
+    .media-slot::after { content: ""; position: absolute; inset: 14px; border: 1px solid currentColor; opacity: 0.17; }
+    .media-slot.filled { border-color: transparent; }
+    .media-slot.filled::after { display: none; }
+    .slot-copy {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-content: center;
+      gap: 5px;
+      padding: 22px;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .slot-copy small { font-size: 9px; font-weight: 600; letter-spacing: 0.02em; text-transform: none; opacity: 0.72; }
+    .media-slot.filled .slot-copy { display: none; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
+    .two-col.wide-left { grid-template-columns: 1.15fr 0.85fr; }
+    .two-col.wide-right { grid-template-columns: 0.82fr 1.18fr; }
+    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .four-col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .card {
+      padding: 19px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.56);
+      box-shadow: 0 12px 26px rgba(23,58,96,0.055);
+    }
+    .dark .card, .blueprint .card { border-color: rgba(255,255,255,0.14); background: rgba(255,255,255,0.045); }
+    .card-no { color: var(--blue-500); font: 800 25px/1 Bahnschrift, sans-serif; margin-bottom: 15px; }
+    .dark .card-no, .blueprint .card-no { color: var(--blue-300); }
+    .tag { display: inline-block; padding: 5px 9px; color: var(--navy-800); background: var(--ice-100); font-size: 9px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+    .dark .tag, .blueprint .tag { color: #fff; background: rgba(141,196,230,0.16); }
+    .source-note { padding-top: 10px; border-top: 1px solid var(--line); color: var(--muted); font-size: 9px; line-height: 1.4; }
+    .dark .source-note, .blueprint .source-note { border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.55); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    th { padding: 10px 11px; text-align: left; color: #fff; background: var(--navy-800); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; }
+    td { padding: 10px 11px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    td:last-child { color: var(--navy-800); font-weight: 700; }
+
+    /* Cover */
+    .logo-cover { position: absolute; top: 48px; right: 52px; width: 205px; height: 67px; object-fit: contain; filter: drop-shadow(0 0 1px #fff) drop-shadow(0 7px 16px rgba(0,0,0,0.25)); }
+    .cover::before { right: -210px; bottom: -220px; width: 560px; height: 560px; opacity: 0.55; }
+    .cover-copy { position: absolute; left: 62px; top: 185px; width: 510px; }
+    .cover-copy h1 { max-width: 500px; margin-top: 18px; }
+    .cover-model { display: inline-block; margin: 6px 0 23px; color: var(--blue-300); font: 800 17px/1.2 Bahnschrift, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .cover-intro { width: 450px; color: rgba(255,255,255,0.72); font-size: 16px; }
+    .cover-hero { position: absolute; left: 62px; right: 0; bottom: 102px; height: 465px; clip-path: polygon(0 7%, 100% 0, 100% 100%, 10% 92%); border: 0; }
+    .cover-meta { position: absolute; left: 62px; bottom: 47px; color: rgba(255,255,255,0.62); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* Contents */
+    .toc-intro { width: 460px; margin-bottom: 32px; }
+    .toc-list { display: grid; gap: 0; }
+    .toc-row { display: grid; grid-template-columns: 58px 1fr 42px; gap: 18px; align-items: baseline; padding: 17px 0; border-top: 1px solid var(--line); }
+    .toc-row strong { color: var(--blue-500); font: 800 20px/1 Bahnschrift, sans-serif; }
+    .toc-row span { font-size: 14px; font-weight: 700; }
+    .toc-row em { color: var(--muted); font-size: 10px; font-style: normal; text-align: right; }
+
+    /* Hero statement */
+    .statement { padding-top: 18px; border-top: 6px solid var(--blue-500); }
+    .statement h2 { font-size: 38px; }
+    .fact-stack { display: grid; gap: 0; border-left: 1px solid var(--line); padding-left: 28px; }
+    .fact { padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .fact strong { display: block; color: var(--blue-500); font: 800 25px/1 Bahnschrift, sans-serif; margin-bottom: 7px; }
+    .fact span { font-size: 12px; line-height: 1.45; }
+
+    .problem-photo { min-height: 440px; }
+    .issue-list { display: grid; gap: 12px; }
+    .issue { display: grid; grid-template-columns: 42px 1fr; gap: 12px; padding: 15px 0; border-top: 1px solid var(--line); }
+    .issue .n { color: var(--blue-500); font: 800 17px/1 Bahnschrift, sans-serif; }
+    .issue p { font-size: 12px; margin: 0; color: var(--muted); }
+
+    .solution-band { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .solution-band .card { min-height: 150px; }
+    .product-hero { min-height: 455px; }
+    .benefit { padding: 14px 0 14px 24px; position: relative; border-top: 1px solid var(--line); font-size: 13px; line-height: 1.4; }
+    .benefit::before { content: ""; position: absolute; left: 0; top: 22px; width: 12px; height: 3px; background: var(--blue-500); }
+
+    .proof-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 245px 195px; gap: 12px; }
+    .proof-grid .wide { grid-column: 1 / -1; }
+    .machine-map { min-height: 590px; }
+    .tech-list { display: grid; align-content: center; }
+    .tech-row { display: grid; grid-template-columns: 38px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .tech-row .n { color: var(--blue-500); font: 800 18px/1 Bahnschrift, sans-serif; }
+    .tech-row p { margin: 0; font-size: 11px; color: var(--muted); }
+
+    .feature-visual { min-height: 415px; margin-bottom: 25px; }
+    .feature-points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .feature-points .card { min-height: 145px; }
+    .feature-points p { font-size: 11px; margin: 0; color: var(--muted); }
+    .dark .feature-points p, .blueprint .feature-points p { color: rgba(255,255,255,0.62); }
+
+    .model-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .model-card { min-height: 255px; padding: 0; overflow: hidden; }
+    .model-card .media-slot { min-height: 150px; border-width: 0 0 1px; box-shadow: none; }
+    .model-card .copy { padding: 16px 18px 18px; }
+    .model-card .copy p { margin: 0; font-size: 11px; color: var(--muted); }
+    .variant-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+    .variant-card { padding: 0; overflow: hidden; }
+    .variant-card .media-slot { min-height: 205px; border-width: 0 0 1px; box-shadow: none; }
+    .variant-card .copy { padding: 15px 16px 17px; }
+    .variant-card .copy p { margin: 0; font-size: 10px; color: var(--muted); }
+    .component-board { display: grid; grid-template-columns: 1.12fr 0.88fr; grid-template-rows: 300px 230px; gap: 14px; }
+    .component-board .hero { grid-row: 1 / -1; }
+    .feature-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .feature-column { padding: 20px; border: 1px solid var(--line); background: rgba(255,255,255,0.56); }
+    .feature-column h3 { padding-bottom: 12px; border-bottom: 4px solid var(--blue-500); }
+    .feature-column ul { margin: 0; padding: 0; list-style: none; }
+    .feature-column li { position: relative; padding: 11px 0 11px 20px; border-bottom: 1px solid var(--line); font-size: 11px; line-height: 1.4; }
+    .feature-column li::before { content: ""; position: absolute; left: 0; top: 17px; width: 9px; height: 3px; background: var(--blue-500); }
+    .accessory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .accessory-card { min-height: 225px; padding: 0; overflow: hidden; }
+    .accessory-card .media-slot { min-height: 130px; border-width: 0 0 1px; box-shadow: none; }
+    .accessory-card .copy { padding: 13px 15px 15px; }
+    .accessory-card h4 { margin-bottom: 5px; }
+    .accessory-card p { margin: 0; color: var(--muted); font-size: 9px; line-height: 1.4; }
+    .solution-mosaic { display: grid; grid-template-columns: 1.2fr 0.8fr; grid-template-rows: 250px 250px; gap: 14px; }
+    .solution-mosaic .hero { grid-row: 1 / -1; }
+    .diagram-board { min-height: 510px; }
+    .dimension-notes { display: grid; gap: 0; }
+    .dimension-note { display: grid; grid-template-columns: 92px 1fr; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .dimension-note strong { color: var(--blue-500); font: 800 17px/1 Bahnschrift, sans-serif; }
+    .dimension-note p { margin: 0; color: var(--muted); font-size: 10px; }
+
+    .divider-copy { position: absolute; left: 62px; top: 250px; width: 560px; }
+    .divider-copy h1 { font-size: 60px; }
+    .divider-index { margin-top: 70px; display: flex; gap: 42px; color: rgba(255,255,255,0.62); font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em; }
+
+    .application-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; grid-template-rows: 260px 260px; gap: 12px; }
+    .application-grid .tall { grid-row: 1 / -1; }
+    .image-caption { position: absolute; left: 18px; right: 18px; bottom: 16px; z-index: 3; color: #fff; font-size: 12px; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.72); }
+
+    .workflow { display: grid; gap: 15px; }
+    .workflow-row { display: grid; grid-template-columns: 50px 1fr 1fr; gap: 16px; align-items: stretch; }
+    .workflow-row .step { display: grid; place-items: center; color: var(--blue-500); font: 800 20px/1 Bahnschrift, sans-serif; border-right: 1px solid var(--line); }
+    .workflow-cell { padding: 15px 16px; border: 1px solid var(--line); background: rgba(255,255,255,0.55); }
+    .workflow-cell h4 { color: var(--navy-800); }
+    .workflow-cell p { margin: 0; font-size: 11px; color: var(--muted); }
+
+    .metric-list { display: grid; gap: 0; }
+    .metric { display: grid; grid-template-columns: 112px 1fr; gap: 18px; padding: 19px 0; border-top: 1px solid rgba(255,255,255,0.15); }
+    .metric strong { color: var(--blue-300); font: 800 25px/1 Bahnschrift, sans-serif; }
+    .metric p { margin: 0; font-size: 11px; color: rgba(255,255,255,0.62); }
+
+    .spec-layout { display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 25px; }
+    .spec-image { min-height: 365px; margin-bottom: 16px; }
+    .config-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+    .config-column.optional { padding-left: 26px; border-left: 1px solid var(--line); }
+    .config-column h3 { padding-bottom: 12px; border-bottom: 5px solid var(--blue-500); color: var(--navy-800); }
+    .config-row { display: grid; grid-template-columns: 32px 1fr auto; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 11px; }
+    .config-row .n { color: var(--blue-500); font-weight: 850; }
+    .config-row .origin { color: var(--muted); font-size: 9px; }
+
+    .service-flow { display: grid; gap: 0; }
+    .service-step { display: grid; grid-template-columns: 54px 1fr; gap: 16px; padding: 17px 0; border-bottom: 1px solid var(--line); }
+    .service-step .n { color: var(--blue-500); font: 800 20px/1 Bahnschrift, sans-serif; }
+    .service-step p { margin: 0; color: var(--muted); font-size: 11px; }
+
+    .closing-copy { position: absolute; left: 62px; top: 180px; width: 580px; }
+    .closing-copy h1 { font-size: 55px; }
+    .next-step { margin-top: 40px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.2); display: grid; grid-template-columns: 62px 1fr; gap: 16px; align-items: start; }
+    .next-step .n { color: var(--blue-300); font: 800 34px/1 Bahnschrift, sans-serif; }
+    .closing-contact { position: absolute; left: 62px; right: 58px; bottom: 130px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.17); color: rgba(255,255,255,0.68); font-size: 11px; }
+    .motto { position: absolute; right: 58px; bottom: 72px; color: var(--blue-300); font: 800 17px/1 Bahnschrift, sans-serif; }
+
+    .controls {
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      z-index: 50;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      background: rgba(5,13,22,0.85);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.26);
+      opacity: 0.24;
+      transition: opacity 160ms ease;
+    }
+    .controls:hover, .controls:focus-within, body.editing .controls { opacity: 1; }
+    .controls button { height: 34px; min-width: 38px; padding: 0 10px; color: rgba(255,255,255,0.88); border: 0; border-radius: 7px; background: transparent; cursor: pointer; font-size: 12px; font-weight: 700; }
+    .controls button:hover { background: rgba(255,255,255,0.1); }
+    .controls button.active { color: #07111c; background: var(--blue-300); }
+    .counter { min-width: 70px; color: rgba(255,255,255,0.62); text-align: center; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; }
+    .help { position: fixed; right: 16px; bottom: 16px; z-index: 50; color: rgba(255,255,255,0.46); font-size: 11px; }
+    #imagePicker { display: none; }
+
+    @media (max-width: 900px) {
+      .controls { opacity: 0.94; }
+      .help { display: none; }
+    }
+    @media print {
+      @page { size: A4 portrait; margin: 0; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      html, body { width: auto; height: auto; overflow: visible; background: #fff; }
+      .viewport { display: block; width: auto; height: auto; }
+      .stage { width: 210mm; height: auto; transform: none !important; box-shadow: none; }
+      .page { position: relative; display: block !important; width: 210mm; height: 297mm; page-break-after: always; break-after: page; }
+      .controls, .help { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="viewport" aria-label="Mẫu tài liệu giới thiệu sản phẩm A4 Nam Hải CNC">
+    <div class="stage" id="stage">
+
+      <section class="page dark cover active" aria-label="Trang 1: Bìa tài liệu">
+        <div class="brand-rail"></div>
+        <img class="logo-cover" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC">
+        <div class="cover-copy">
+          <div class="eyebrow" data-editable>Tài liệu giới thiệu sản phẩm</div>
+          <h1 data-editable>[TÊN SẢN PHẨM]</h1>
+          <div class="cover-model" data-editable>[HÃNG · MODEL · CẤU HÌNH]</div>
+          <p class="cover-intro" data-editable>[Một câu định vị trực tiếp: sản phẩm phục vụ công đoạn nào, vật liệu nào và mục tiêu vận hành nào]</p>
+        </div>
+        <div class="media-slot cover-hero" data-image-slot><div class="slot-copy">Ảnh hero sản phẩm<small>Ảnh nền sạch, đúng cấu hình chào bán</small></div></div>
+        <div class="cover-meta" data-editable>CÔNG TY TNHH THƯƠNG MẠI VÀ DỊCH VỤ NAM HẢI CNC · [DD/MM/YYYY]</div>
+      </section>
+
+      <section class="page light" aria-label="Trang 2: Mục lục">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">Tài liệu giới thiệu sản phẩm</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Nội dung tài liệu</div>
+          <h2 data-editable>Một cấu trúc đủ sâu để hỗ trợ quyết định đầu tư</h2>
+          <p class="toc-intro muted" data-editable>Điều chỉnh tên chương theo sản phẩm, nhưng giữ logic từ bài toán sản xuất đến cấu hình, kiểm chứng và phạm vi triển khai.</p>
+          <div class="toc-list">
+            <div class="toc-row"><strong>01</strong><span data-editable>Bối cảnh và bài toán sản xuất</span><em>03–05</em></div>
+            <div class="toc-row"><strong>02</strong><span data-editable>Giải pháp và tổng quan sản phẩm</span><em>06–10</em></div>
+            <div class="toc-row"><strong>03</strong><span data-editable>Công nghệ và hệ thống chức năng</span><em>11–20</em></div>
+            <div class="toc-row"><strong>04</strong><span data-editable>Ứng dụng và giá trị vận hành</span><em>21–25</em></div>
+            <div class="toc-row"><strong>05</strong><span data-editable>Thông số, cấu hình và triển khai</span><em>26–29</em></div>
+            <div class="toc-row"><strong>06</strong><span data-editable>Bước tiếp theo</span><em>30</em></div>
+          </div>
+          <div class="callout" style="margin-top:28px" data-editable>Thông tin kỹ thuật, thương mại và cam kết cuối cùng phải đối chiếu theo hồ sơ được phê duyệt cho đúng giao dịch.</div>
+        </main>
+        <footer class="page-footer"><span>Nhanh Hơn – Tốt Hơn – Tiết Kiệm Hơn</span><span class="page-number">02 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 3: Tóm tắt điều hành">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">01 · Tóm tắt điều hành</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="two-col wide-left" style="height:100%; align-items:center">
+            <div class="statement">
+              <div class="section-label">Giá trị đề xuất</div>
+              <h2 data-editable>[SẢN PHẨM] hỗ trợ cải thiện công đoạn [TÊN CÔNG ĐOẠN]</h2>
+              <p class="lead muted" data-editable>Đặt kết luận quan trọng nhất tại đây. Nội dung cần trả lời sản phẩm giải quyết vấn đề nào, trong điều kiện nào và bằng cơ chế nào.</p>
+              <div class="accent-line"></div>
+              <span class="tag" data-editable>[NHÓM KHÁCH HÀNG PHÙ HỢP]</span>
+            </div>
+            <div class="fact-stack">
+              <div class="fact"><strong data-editable>[01]</strong><span data-editable>Thông số hoặc năng lực nổi bật có nguồn xác nhận</span></div>
+              <div class="fact"><strong data-editable>[02]</strong><span data-editable>Điểm khác biệt gắn trực tiếp với bài toán sản xuất</span></div>
+              <div class="fact"><strong data-editable>[03]</strong><span data-editable>Điều kiện vận hành hoặc phạm vi ứng dụng</span></div>
+              <div class="fact"><strong data-editable>[04]</strong><span data-editable>Dịch vụ kỹ thuật trong phạm vi chào bán</span></div>
+            </div>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Tóm tắt giải pháp</span><span class="page-number">03 / 30</span></footer>
+      </section>
+
+      <section class="page dark" aria-label="Trang 4: Bối cảnh sản xuất">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">01 · Bối cảnh sản xuất</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Hiện trạng</div>
+          <h2 data-editable>Hiểu đúng công đoạn trước khi nói về thiết bị</h2>
+          <div class="two-col wide-left" style="margin-top:26px">
+            <div class="media-slot problem-photo" data-image-slot><div class="slot-copy">Ảnh hiện trạng / chi tiết gia công<small>Chỉ dùng ảnh khách hàng khi được phép</small></div></div>
+            <div>
+              <div class="issue"><div class="n">01</div><div><h3 data-editable>[SẢN PHẨM ĐẦU RA]</h3><p data-editable>[Kích thước, vật liệu, độ dày, dung sai và yêu cầu bề mặt]</p></div></div>
+              <div class="issue"><div class="n">02</div><div><h3 data-editable>[QUY TRÌNH HIỆN HỮU]</h3><p data-editable>[Thiết bị, nhân lực, thời gian chu kỳ và điểm chuyển công đoạn]</p></div></div>
+              <div class="issue"><div class="n">03</div><div><h3 data-editable>[SẢN LƯỢNG]</h3><p data-editable>[Sản lượng chuẩn, cơ cấu đơn hàng và biến động theo kỳ]</p></div></div>
+              <div class="issue"><div class="n">04</div><div><h3 data-editable>[TIÊU CHÍ THÀNH CÔNG]</h3><p data-editable>[Chỉ số cần đạt và phương pháp nghiệm thu]</p></div></div>
+            </div>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Dữ liệu hiện trạng cần được khách hàng xác nhận</span><span class="page-number">04 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 5: Điểm nghẽn và tiêu chí lựa chọn">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">01 · Điểm nghẽn và mục tiêu</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Bài toán cần giải quyết</div>
+          <h2 data-editable>Chuyển vấn đề vận hành thành tiêu chí lựa chọn</h2>
+          <div class="three-col" style="margin-top:28px">
+            <div class="card"><div class="card-no">01</div><h3 data-editable>[ĐIỂM NGHẼN 01]</h3><p class="muted" data-editable>[Biểu hiện, nguyên nhân và tác động tới năng suất hoặc chất lượng]</p></div>
+            <div class="card"><div class="card-no">02</div><h3 data-editable>[ĐIỂM NGHẼN 02]</h3><p class="muted" data-editable>[Chi phí, thời gian chờ hoặc rủi ro phụ thuộc tay nghề]</p></div>
+            <div class="card"><div class="card-no">03</div><h3 data-editable>[ĐIỂM NGHẼN 03]</h3><p class="muted" data-editable>[Giới hạn thiết bị, mặt bằng hoặc khả năng mở rộng]</p></div>
+          </div>
+          <div class="callout" style="margin-top:28px" data-editable>Tiêu chí lựa chọn đề xuất: [Năng suất] · [Chất lượng] · [Khả năng đổi mã] · [An toàn] · [Chi phí vòng đời] · [Dịch vụ kỹ thuật].</div>
+          <div class="two-col" style="margin-top:28px">
+            <div><h3 data-editable>Ngưỡng bắt buộc</h3><p class="muted" data-editable>[Các điều kiện nếu không đạt thì giải pháp không phù hợp]</p></div>
+            <div><h3 data-editable>Điểm ưu tiên</h3><p class="muted" data-editable>[Các yếu tố giúp phương án phù hợp hơn nhưng không phải điều kiện loại]</p></div>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Tiêu chí phải gắn với phương pháp kiểm chứng</span><span class="page-number">05 / 30</span></footer>
+      </section>
+
+      <section class="page dark" aria-label="Trang 6: Tổng quan giải pháp">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">02 · Tổng quan giải pháp</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Phương án đề xuất</div>
+          <h2 data-editable>Một cấu hình được chọn từ bài toán, không từ danh mục</h2>
+          <p class="lead muted" data-editable>[Mô tả logic lựa chọn giải pháp và phạm vi công đoạn mà thiết bị đảm nhiệm]</p>
+          <div class="solution-band">
+            <div class="card"><div class="card-no">01</div><h3 data-editable>Đầu vào</h3><p class="muted" data-editable>[Vật liệu, phôi, dữ liệu và điều kiện trước công đoạn]</p></div>
+            <div class="card"><div class="card-no">02</div><h3 data-editable>Công nghệ</h3><p class="muted" data-editable>[Cơ chế xử lý chính và cụm chức năng tạo giá trị]</p></div>
+            <div class="card"><div class="card-no">03</div><h3 data-editable>Đầu ra</h3><p class="muted" data-editable>[Sản phẩm, tiêu chí chất lượng và dữ liệu cần ghi nhận]</p></div>
+          </div>
+          <div class="media-slot" style="height:370px; margin-top:24px" data-image-slot><div class="slot-copy">Sơ đồ giải pháp tổng thể<small>Thể hiện luồng vật liệu, thiết bị và điểm kiểm soát</small></div></div>
+        </main>
+        <footer class="page-footer"><span>Phạm vi cuối cùng theo cấu hình và hồ sơ được duyệt</span><span class="page-number">06 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 7: Tổng quan sản phẩm">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">02 · Tổng quan sản phẩm</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Sản phẩm được đề xuất</div>
+          <h2 data-editable>[HÃNG] [MODEL]</h2>
+          <div class="two-col wide-left" style="margin-top:25px">
+            <div class="media-slot product-hero" data-image-slot><div class="slot-copy">Ảnh toàn cảnh thiết bị<small>Nền sạch, đúng model và cấu hình</small></div></div>
+            <div style="align-self:center">
+              <p class="lead muted" data-editable>[Mô tả ngắn về loại máy, dải ứng dụng và nhóm khách hàng phù hợp]</p>
+              <div class="benefit" data-editable>[Lợi ích chính gắn với công nghệ hoặc thông số]</div>
+              <div class="benefit" data-editable>[Lợi ích chính gắn với quy trình vận hành]</div>
+              <div class="benefit" data-editable>[Lợi ích chính gắn với chất lượng hoặc an toàn]</div>
+              <div class="benefit" data-editable>[Giới hạn hoặc điều kiện áp dụng cần nói rõ]</div>
+            </div>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Ảnh và thông tin phải khớp cấu hình chào bán</span><span class="page-number">07 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 8: Nhà sản xuất và chất lượng">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">02 · Nhà sản xuất và chất lượng</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Bằng chứng năng lực</div>
+          <div class="two-col wide-right">
+            <div>
+              <h2 data-editable>[TÊN NHÀ SẢN XUẤT]</h2>
+              <p class="lead muted" data-editable>[Thông tin định vị có nguồn, lịch sử, nhà máy, năng lực R&amp;D hoặc hệ thống quản lý chất lượng]</p>
+              <div class="callout" data-editable>[Chứng nhận, tiêu chuẩn hoặc bằng chứng trực tiếp liên quan tới dòng sản phẩm]</div>
+              <p class="source-note" style="margin-top:22px" data-editable>Nguồn: [tài liệu hãng / chứng nhận / website chính thức], kiểm tra ngày [DD/MM/YYYY].</p>
+            </div>
+            <div class="proof-grid">
+              <div class="media-slot wide" data-image-slot><div class="slot-copy">Ảnh nhà máy / dây chuyền<small>Thêm địa điểm và năm chụp</small></div></div>
+              <div class="media-slot" data-image-slot><div class="slot-copy">Chứng nhận / QC<small>Giữ nguyên mã và phạm vi hiệu lực</small></div></div>
+              <div class="media-slot" data-image-slot><div class="slot-copy">Thiết bị sản xuất<small>Chỉ nêu hãng khi có nguồn</small></div></div>
+            </div>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Không dùng tuyên bố “hàng đầu” khi thiếu căn cứ</span><span class="page-number">08 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 9: Kiến trúc sản phẩm">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">03 · Kiến trúc sản phẩm</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Công nghệ và cấu trúc</div>
+          <h2 data-editable>Các cụm chức năng chính</h2>
+          <div class="two-col wide-left" style="margin-top:22px">
+            <div class="media-slot machine-map" data-image-slot><div class="slot-copy">Ảnh máy có đánh số vị trí<small>Dùng ảnh hoặc sơ đồ chính thức từ nhà sản xuất</small></div></div>
+            <div class="tech-list">
+              <div class="tech-row"><div class="n">01</div><div><h3 data-editable>[CỤM CHỨC NĂNG 01]</h3><p data-editable>[Vai trò và lợi ích vận hành]</p></div></div>
+              <div class="tech-row"><div class="n">02</div><div><h3 data-editable>[CỤM CHỨC NĂNG 02]</h3><p data-editable>[Vai trò và lợi ích vận hành]</p></div></div>
+              <div class="tech-row"><div class="n">03</div><div><h3 data-editable>[CỤM CHỨC NĂNG 03]</h3><p data-editable>[Vai trò và lợi ích vận hành]</p></div></div>
+              <div class="tech-row"><div class="n">04</div><div><h3 data-editable>[CỤM CHỨC NĂNG 04]</h3><p data-editable>[Vai trò và lợi ích vận hành]</p></div></div>
+              <div class="tech-row"><div class="n">05</div><div><h3 data-editable>[CỤM CHỨC NĂNG 05]</h3><p data-editable>[Vai trò và lợi ích vận hành]</p></div></div>
+              <div class="tech-row"><div class="n">06</div><div><h3 data-editable>[CỤM CHỨC NĂNG 06]</h3><p data-editable>[Vai trò và lợi ích vận hành]</p></div></div>
+            </div>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Mỗi cụm chức năng phải gắn với một giá trị hoặc điều kiện vận hành</span><span class="page-number">09 / 30</span></footer>
+      </section>
+
+      <section class="page dark" aria-label="Trang 10: Công nghệ trọng tâm 1">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">03 · Công nghệ trọng tâm</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Công nghệ 01</div>
+          <h2 data-editable>[TÊN CÔNG NGHỆ / CỤM CHỨC NĂNG]</h2>
+          <div class="media-slot feature-visual" data-image-slot><div class="slot-copy">Ảnh chi tiết / sơ đồ nguyên lý<small>Chú thích đúng vị trí và tên gọi kỹ thuật</small></div></div>
+          <div class="feature-points">
+            <div class="card"><h3 data-editable>Cơ chế</h3><p data-editable>[Công nghệ hoạt động như thế nào]</p></div>
+            <div class="card"><h3 data-editable>Giá trị</h3><p data-editable>[Tác động tới năng suất, chất lượng hoặc thao tác]</p></div>
+            <div class="card"><h3 data-editable>Điều kiện</h3><p data-editable>[Giới hạn, vật liệu, cấu hình hoặc điều kiện áp dụng]</p></div>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Thông tin theo tài liệu đúng model và phiên bản</span><span class="page-number">10 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 11: Công nghệ trọng tâm 2">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">03 · Công nghệ trọng tâm</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Công nghệ 02</div>
+          <h2 data-editable>[TÊN CÔNG NGHỆ / CỤM CHỨC NĂNG]</h2>
+          <div class="two-col wide-right" style="margin-top:26px">
+            <div>
+              <p class="lead muted" data-editable>[Giải thích công nghệ theo ngôn ngữ người mua có thể ra quyết định]</p>
+              <div class="benefit" data-editable>[Lợi ích vận hành có thể kiểm chứng]</div>
+              <div class="benefit" data-editable>[Ảnh hưởng tới chất lượng đầu ra]</div>
+              <div class="benefit" data-editable>[Yêu cầu bảo trì hoặc điều kiện sử dụng]</div>
+              <div class="callout" style="margin-top:24px" data-editable>[Thông số hoặc bằng chứng cần nhấn mạnh]</div>
+            </div>
+            <div class="media-slot" style="min-height:570px" data-image-slot><div class="slot-copy">Ảnh công nghệ / cụm chức năng<small>Ưu tiên ảnh cắt lớp hoặc ảnh vận hành</small></div></div>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Không biến tính năng thành lợi ích khi chưa có cơ chế giải thích</span><span class="page-number">11 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 12: Điều khiển chất lượng và an toàn">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">03 · Chất lượng và an toàn</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Công nghệ 03</div>
+          <h2 data-editable>Kiểm soát chất lượng, dữ liệu và an toàn vận hành</h2>
+          <div class="three-col" style="margin-top:28px">
+            <div class="card"><div class="media-slot" style="height:180px; margin:-19px -19px 18px" data-image-slot><div class="slot-copy">Ảnh giao diện / cảm biến</div></div><h3 data-editable>[KIỂM SOÁT QUÁ TRÌNH]</h3><p class="muted" data-editable>[Dữ liệu, cảnh báo hoặc chức năng hỗ trợ kiểm soát]</p></div>
+            <div class="card"><div class="media-slot" style="height:180px; margin:-19px -19px 18px" data-image-slot><div class="slot-copy">Ảnh chi tiết đầu ra</div></div><h3 data-editable>[KIỂM SOÁT CHẤT LƯỢNG]</h3><p class="muted" data-editable>[Tiêu chí, phương pháp kiểm và điều kiện nghiệm thu]</p></div>
+            <div class="card"><div class="media-slot" style="height:180px; margin:-19px -19px 18px" data-image-slot><div class="slot-copy">Ảnh cơ chế bảo vệ</div></div><h3 data-editable>[AN TOÀN]</h3><p class="muted" data-editable>[Cơ chế bảo vệ và trách nhiệm người vận hành]</p></div>
+          </div>
+          <div class="callout" style="margin-top:28px" data-editable>A.I không kết luận thiết bị an toàn. Nội dung an toàn phải theo tài liệu hãng, quy định áp dụng và kiểm tra thực tế của người có chuyên môn.</div>
+        </main>
+        <footer class="page-footer"><span>An toàn phải được xác nhận trong điều kiện vận hành thực tế</span><span class="page-number">12 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 13: Dải sản phẩm và model">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">03 · Dải sản phẩm</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Danh mục phù hợp</div>
+          <h2 data-editable>Từ một nền tảng công nghệ đến dải model phù hợp</h2>
+          <p class="muted" data-editable>Giúp người đọc định vị model đang đề xuất trong toàn bộ dải sản phẩm; không dùng trang này để thay thế bảng cấu hình chi tiết.</p>
+          <div class="model-gallery" style="margin-top:22px">
+            <article class="card model-card"><div class="media-slot" data-image-slot><div class="slot-copy">Dòng sản phẩm 01</div></div><div class="copy"><span class="tag" data-editable>[PHÂN KHÚC]</span><h3 data-editable>[DÒNG / MODEL]</h3><p data-editable>[Dải năng lực, nhóm ứng dụng và điều kiện phù hợp]</p></div></article>
+            <article class="card model-card"><div class="media-slot" data-image-slot><div class="slot-copy">Dòng sản phẩm 02</div></div><div class="copy"><span class="tag" data-editable>[PHÂN KHÚC]</span><h3 data-editable>[DÒNG / MODEL]</h3><p data-editable>[Dải năng lực, nhóm ứng dụng và điều kiện phù hợp]</p></div></article>
+            <article class="card model-card"><div class="media-slot" data-image-slot><div class="slot-copy">Dòng sản phẩm 03</div></div><div class="copy"><span class="tag" data-editable>[PHÂN KHÚC]</span><h3 data-editable>[DÒNG / MODEL]</h3><p data-editable>[Dải năng lực, nhóm ứng dụng và điều kiện phù hợp]</p></div></article>
+            <article class="card model-card"><div class="media-slot" data-image-slot><div class="slot-copy">Model đề xuất</div></div><div class="copy"><span class="tag" data-editable>Đề xuất</span><h3 data-editable>[MODEL ĐANG CHÀO]</h3><p data-editable>[Lý do chọn model này theo dữ liệu bài toán]</p></div></article>
+          </div>
+        </main>
+        <footer class="page-footer"><span>So sánh cùng điều kiện và cùng hệ đơn vị</span><span class="page-number">13 / 30</span></footer>
+      </section>
+
+      <section class="page dark" aria-label="Trang 14: Hệ định vị và biến thể">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">03 · Hệ định vị và chuyển động</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Cụm chức năng chuyên sâu</div>
+          <h2 data-editable>[HỆ ĐỊNH VỊ / CỤM CHUYỂN ĐỘNG]</h2>
+          <p class="muted" data-editable>Trình bày các biến thể theo cùng một logic: cấu trúc, trục điều khiển, phạm vi ứng dụng và điều kiện lựa chọn.</p>
+          <div class="variant-gallery" style="margin-top:24px">
+            <article class="card variant-card"><div class="media-slot" data-image-slot><div class="slot-copy">Biến thể 01<small>Ảnh cụm hoặc sơ đồ trục</small></div></div><div class="copy"><h3 data-editable>[TÊN BIẾN THỂ]</h3><p data-editable>[Cấu hình · phạm vi · ưu điểm · giới hạn]</p></div></article>
+            <article class="card variant-card"><div class="media-slot" data-image-slot><div class="slot-copy">Biến thể 02<small>Ảnh cụm hoặc sơ đồ trục</small></div></div><div class="copy"><h3 data-editable>[TÊN BIẾN THỂ]</h3><p data-editable>[Cấu hình · phạm vi · ưu điểm · giới hạn]</p></div></article>
+            <article class="card variant-card"><div class="media-slot" data-image-slot><div class="slot-copy">Biến thể 03<small>Ảnh cụm hoặc sơ đồ trục</small></div></div><div class="copy"><h3 data-editable>[TÊN BIẾN THỂ]</h3><p data-editable>[Cấu hình · phạm vi · ưu điểm · giới hạn]</p></div></article>
+          </div>
+          <div class="callout" style="margin-top:22px" data-editable>Tiêu chí chọn biến thể: [độ chính xác] · [hình dạng chi tiết] · [tần suất đổi mã] · [mức tự động hóa] · [ngân sách được duyệt].</div>
+        </main>
+        <footer class="page-footer"><span>Chỉ đưa biến thể có trong cấu hình của đúng dòng máy</span><span class="page-number">14 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 15: Dụng cụ và cụm hỗ trợ">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">03 · Dụng cụ và cụm hỗ trợ</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Hệ sinh thái công nghệ</div>
+          <h2 data-editable>Dụng cụ, kẹp giữ và cụm hỗ trợ thao tác</h2>
+          <div class="component-board" style="margin-top:24px">
+            <div class="media-slot hero" data-image-slot><div class="slot-copy">Ảnh cụm chính có chú thích<small>Đánh số vị trí và ghi đúng tên kỹ thuật</small></div></div>
+            <div class="card"><h3 data-editable>[CỤM / DỤNG CỤ 01]</h3><p class="muted" data-editable>[Vai trò, khả năng tương thích và lợi ích khi đổi mã]</p><div class="callout small" data-editable>[Điều kiện hoặc lưu ý lựa chọn]</div></div>
+            <div class="card"><h3 data-editable>[CỤM / DỤNG CỤ 02]</h3><p class="muted" data-editable>[Vai trò, khả năng tương thích và lợi ích vận hành]</p><div class="callout small" data-editable>[Điều kiện hoặc lưu ý lựa chọn]</div></div>
+          </div>
+          <p class="source-note" style="margin-top:20px" data-editable>Nguồn tương thích dụng cụ/phụ kiện: [CATALOGUE · MODEL · PHIÊN BẢN].</p>
+        </main>
+        <footer class="page-footer"><span>Không mặc định phụ kiện tương thích giữa các model</span><span class="page-number">15 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 16: Bộ điều khiển và phần mềm">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">03 · Bộ điều khiển và phần mềm</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Giao diện vận hành</div>
+          <h2 data-editable>[TÊN BỘ ĐIỀU KHIỂN / PHẦN MỀM]</h2>
+          <div class="two-col wide-right" style="margin-top:22px">
+            <div>
+              <div class="media-slot" style="height:285px" data-image-slot><div class="slot-copy">Ảnh màn hình điều khiển<small>Dùng đúng phiên bản giao diện</small></div></div>
+              <p class="lead muted" style="margin-top:20px" data-editable>[Mô tả vai trò của bộ điều khiển trong lập trình, mô phỏng, vận hành và quản lý dữ liệu]</p>
+            </div>
+            <div class="feature-columns">
+              <div class="feature-column"><h3 data-editable>Tiêu chuẩn</h3><ul><li data-editable>[Chức năng 01]</li><li data-editable>[Chức năng 02]</li><li data-editable>[Chức năng 03]</li><li data-editable>[Chức năng 04]</li><li data-editable>[Chức năng 05]</li></ul></div>
+              <div class="feature-column"><h3 data-editable>Tùy chọn</h3><ul><li data-editable>[Chức năng A]</li><li data-editable>[Chức năng B]</li><li data-editable>[Chức năng C]</li><li data-editable>[Chức năng D]</li><li data-editable>[Chức năng E]</li></ul></div>
+            </div>
+          </div>
+          <div class="callout small" style="margin-top:22px" data-editable>Ghi rõ chức năng nào yêu cầu bản quyền, mô-đun, phần cứng hoặc kết nối bổ sung.</div>
+        </main>
+        <footer class="page-footer"><span>Chức năng phần mềm phải khớp phiên bản và giấy phép</span><span class="page-number">16 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 17: Phụ kiện tùy chọn">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">03 · Phụ kiện tùy chọn</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Mở rộng cấu hình</div>
+          <h2 data-editable>Phụ kiện lựa chọn theo bài toán</h2>
+          <div class="accessory-grid" style="margin-top:24px">
+            <article class="card accessory-card"><div class="media-slot" data-image-slot><div class="slot-copy">Phụ kiện 01</div></div><div class="copy"><h4 data-editable>[TÊN PHỤ KIỆN]</h4><p data-editable>[Giá trị · điều kiện · tương thích]</p></div></article>
+            <article class="card accessory-card"><div class="media-slot" data-image-slot><div class="slot-copy">Phụ kiện 02</div></div><div class="copy"><h4 data-editable>[TÊN PHỤ KIỆN]</h4><p data-editable>[Giá trị · điều kiện · tương thích]</p></div></article>
+            <article class="card accessory-card"><div class="media-slot" data-image-slot><div class="slot-copy">Phụ kiện 03</div></div><div class="copy"><h4 data-editable>[TÊN PHỤ KIỆN]</h4><p data-editable>[Giá trị · điều kiện · tương thích]</p></div></article>
+            <article class="card accessory-card"><div class="media-slot" data-image-slot><div class="slot-copy">Phụ kiện 04</div></div><div class="copy"><h4 data-editable>[TÊN PHỤ KIỆN]</h4><p data-editable>[Giá trị · điều kiện · tương thích]</p></div></article>
+            <article class="card accessory-card"><div class="media-slot" data-image-slot><div class="slot-copy">Phụ kiện 05</div></div><div class="copy"><h4 data-editable>[TÊN PHỤ KIỆN]</h4><p data-editable>[Giá trị · điều kiện · tương thích]</p></div></article>
+            <article class="card accessory-card"><div class="media-slot" data-image-slot><div class="slot-copy">Phụ kiện 06</div></div><div class="copy"><h4 data-editable>[TÊN PHỤ KIỆN]</h4><p data-editable>[Giá trị · điều kiện · tương thích]</p></div></article>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Tách rõ tiêu chuẩn, tùy chọn và hạng mục ngoài phạm vi</span><span class="page-number">17 / 30</span></footer>
+      </section>
+
+      <section class="page dark" aria-label="Trang 18: Hỗ trợ vật liệu và thao tác">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">03 · Hỗ trợ vật liệu và thao tác</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Ergonomics · Công thái học</div>
+          <h2 data-editable>Giảm tải thao tác, ổn định quá trình đưa phôi</h2>
+          <div class="variant-gallery" style="margin-top:24px">
+            <article class="card variant-card"><div class="media-slot" data-image-slot><div class="slot-copy">Giải pháp 01</div></div><div class="copy"><h3 data-editable>[BÀN / TAY ĐỠ]</h3><p data-editable>[Phạm vi tải, kích thước phôi và cách hỗ trợ người vận hành]</p></div></article>
+            <article class="card variant-card"><div class="media-slot" data-image-slot><div class="slot-copy">Giải pháp 02</div></div><div class="copy"><h3 data-editable>[BỘ THEO PHÔI]</h3><p data-editable>[Cơ chế chuyển động, đồng bộ và điều kiện áp dụng]</p></div></article>
+            <article class="card variant-card"><div class="media-slot" data-image-slot><div class="slot-copy">Giải pháp 03</div></div><div class="copy"><h3 data-editable>[CẤP / DỠ PHÔI]</h3><p data-editable>[Mức tự động hóa, giao diện và giới hạn vận hành]</p></div></article>
+          </div>
+          <div class="callout" style="margin-top:24px" data-editable>Đánh giá theo phôi thực tế: [khối lượng] · [kích thước] · [tần suất thao tác] · [không gian] · [yêu cầu an toàn].</div>
+        </main>
+        <footer class="page-footer"><span>Không suy luận tải trọng hoặc an toàn từ ảnh minh họa</span><span class="page-number">18 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 19: Giải pháp công suất lớn và tùy biến">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">03 · Giải pháp công suất lớn</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Custom engineering · Kỹ thuật tùy biến</div>
+          <h2 data-editable>Giải pháp cho tải lớn, chiều dài lớn hoặc yêu cầu đặc thù</h2>
+          <div class="solution-mosaic" style="margin-top:24px">
+            <div class="media-slot hero" data-image-slot><div class="slot-copy">Ảnh giải pháp công suất lớn<small>Ghi rõ model và dự án nếu được phép</small></div></div>
+            <div class="card"><h3 data-editable>[YÊU CẦU ĐẶC THÙ 01]</h3><p class="muted" data-editable>[Bài toán, cơ sở thiết kế và điểm cần xác nhận kỹ thuật]</p><span class="tag" data-editable>[TRẠNG THÁI]</span></div>
+            <div class="card"><h3 data-editable>[YÊU CẦU ĐẶC THÙ 02]</h3><p class="muted" data-editable>[Bài toán, cơ sở thiết kế và điểm cần xác nhận kỹ thuật]</p><span class="tag" data-editable>[TRẠNG THÁI]</span></div>
+          </div>
+          <p class="source-note" style="margin-top:20px" data-editable>Giải pháp tùy biến chỉ được mô tả là khả thi sau khi có xác nhận của hãng và hồ sơ kỹ thuật tương ứng.</p>
+        </main>
+        <footer class="page-footer"><span>Không biến ví dụ tham khảo thành cam kết dự án</span><span class="page-number">19 / 30</span></footer>
+      </section>
+
+      <section class="page blueprint" aria-label="Trang 20: Tích hợp và tự động hóa">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">03 · Tích hợp và tự động hóa</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Cell · Line · Data</div>
+          <h2 data-editable>Từ thiết bị độc lập đến cell hoặc dây chuyền</h2>
+          <div class="media-slot" style="height:390px; margin-top:24px" data-image-slot><div class="slot-copy">Sơ đồ cell / dây chuyền tích hợp<small>Luồng vật liệu · robot · thiết bị · dữ liệu · điểm kiểm soát</small></div></div>
+          <div class="three-col" style="margin-top:18px">
+            <div class="card"><div class="card-no">01</div><h3 data-editable>Giao diện</h3><p class="muted" data-editable>[Tín hiệu, dữ liệu, giao thức và trách nhiệm tích hợp]</p></div>
+            <div class="card"><div class="card-no">02</div><h3 data-editable>Liên động</h3><p class="muted" data-editable>[Điều kiện chạy, dừng, cảnh báo và xử lý ngoại lệ]</p></div>
+            <div class="card"><div class="card-no">03</div><h3 data-editable>Nghiệm thu</h3><p class="muted" data-editable>[Kịch bản chạy thử, đầu ra và tiêu chí xác nhận]</p></div>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Tích hợp cần ma trận trách nhiệm và giao diện được duyệt</span><span class="page-number">20 / 30</span></footer>
+      </section>
+
+      <section class="page blueprint" aria-label="Trang 21: Phần ứng dụng và giá trị">
+        <div class="brand-rail"></div>
+        <img class="logo-cover" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC">
+        <div class="divider-copy">
+          <div class="eyebrow">Phần 04</div>
+          <h1 data-editable>Ứng dụng và giá trị vận hành</h1>
+          <p class="lead muted" data-editable>Đưa tính năng về cùng một mẫu số đo: sản phẩm đầu ra, chất lượng, thời gian, chi phí và điều kiện áp dụng.</p>
+          <div class="divider-index"><span>Ứng dụng</span><span>Quy trình</span><span>Kiểm chứng</span></div>
+        </div>
+        <footer class="page-footer"><span>Nam Hải CNC</span><span class="page-number">21 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 22: Ứng dụng điển hình">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">04 · Ứng dụng điển hình</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Ứng dụng</div>
+          <h2 data-editable>Chi tiết, vật liệu và ngành ứng dụng</h2>
+          <p class="muted" data-editable>Chọn hình ảnh thể hiện rõ vật liệu, hình dạng chi tiết và công đoạn. Chú thích bằng ngôn ngữ của khách hàng.</p>
+          <div class="application-grid" style="margin-top:24px">
+            <div class="media-slot tall" data-image-slot><div class="slot-copy">Ứng dụng chính<small>Ảnh chi tiết hoặc ảnh đang gia công</small></div><div class="image-caption" data-editable>[ỨNG DỤNG 01 · VẬT LIỆU · ĐỘ DÀY]</div></div>
+            <div class="media-slot" data-image-slot><div class="slot-copy">Ứng dụng 02</div><div class="image-caption" data-editable>[ỨNG DỤNG 02]</div></div>
+            <div class="media-slot" data-image-slot><div class="slot-copy">Ứng dụng 03</div><div class="image-caption" data-editable>[ỨNG DỤNG 03]</div></div>
+          </div>
+          <p class="source-note" style="margin-top:18px" data-editable>Nguồn ảnh và quyền sử dụng: [ĐIỀN]. Hình minh họa phải được ghi rõ nếu không phải sản phẩm thực tế.</p>
+        </main>
+        <footer class="page-footer"><span>Không dùng ảnh dự án hoặc khách hàng khi chưa được phép</span><span class="page-number">22 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 23: Quy trình trước và sau">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">04 · Quy trình vận hành</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Tác động vào quy trình</div>
+          <h2 data-editable>So sánh quy trình hiện trạng và phương án đề xuất</h2>
+          <div class="two-col" style="margin:24px 0 12px 66px; grid-template-columns:1fr 1fr; gap:16px"><h3 data-editable>Hiện trạng</h3><h3 data-editable>Phương án với thiết bị</h3></div>
+          <div class="workflow">
+            <div class="workflow-row"><div class="step">01</div><div class="workflow-cell"><h4 data-editable>[CÔNG ĐOẠN HIỆN TẠI]</h4><p data-editable>[Thao tác, thời gian và điểm kiểm soát]</p></div><div class="workflow-cell"><h4 data-editable>[CÔNG ĐOẠN ĐỀ XUẤT]</h4><p data-editable>[Cách thiết bị thay đổi thao tác hoặc luồng dữ liệu]</p></div></div>
+            <div class="workflow-row"><div class="step">02</div><div class="workflow-cell"><h4 data-editable>[CÔNG ĐOẠN HIỆN TẠI]</h4><p data-editable>[Điểm chờ hoặc rủi ro chất lượng]</p></div><div class="workflow-cell"><h4 data-editable>[CÔNG ĐOẠN ĐỀ XUẤT]</h4><p data-editable>[Cơ chế kiểm soát hoặc giảm thao tác]</p></div></div>
+            <div class="workflow-row"><div class="step">03</div><div class="workflow-cell"><h4 data-editable>[CÔNG ĐOẠN HIỆN TẠI]</h4><p data-editable>[Phụ thuộc nhân lực hoặc thiết bị khác]</p></div><div class="workflow-cell"><h4 data-editable>[CÔNG ĐOẠN ĐỀ XUẤT]</h4><p data-editable>[Điều kiện tích hợp và yêu cầu vận hành]</p></div></div>
+            <div class="workflow-row"><div class="step">04</div><div class="workflow-cell"><h4 data-editable>[KIỂM TRA ĐẦU RA]</h4><p data-editable>[Cách nghiệm thu hiện tại]</p></div><div class="workflow-cell"><h4 data-editable>[KIỂM TRA ĐẦU RA]</h4><p data-editable>[Chỉ số và phương pháp nghiệm thu đề xuất]</p></div></div>
+          </div>
+          <div class="callout" style="margin-top:22px" data-editable>Kết luận quy trình: [Nêu phần được rút gọn, phần vẫn giữ nguyên và điều kiện để phương án có hiệu quả].</div>
+        </main>
+        <footer class="page-footer"><span>Không cam kết hiệu quả khi chưa có dữ liệu hiện trạng và điều kiện đo</span><span class="page-number">23 / 30</span></footer>
+      </section>
+
+      <section class="page dark" aria-label="Trang 24: Giá trị và tiêu chí kiểm chứng">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">04 · Giá trị vận hành</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="two-col wide-left" style="height:100%; align-items:center">
+            <div>
+              <div class="section-label">Giá trị cần kiểm chứng</div>
+              <h2 data-editable>Đưa lợi ích về cùng một mẫu số đo</h2>
+              <p class="lead muted" data-editable>Mỗi nhận định cần đi kèm mốc hiện trạng, điều kiện đo, phương pháp nghiệm thu và người xác nhận.</p>
+              <div class="callout" data-editable>[Đề xuất thử mẫu / chạy thử / đo tại hiện trường]</div>
+            </div>
+            <div class="metric-list">
+              <div class="metric"><strong data-editable>[CHỈ SỐ]</strong><div><h3 data-editable>Năng suất theo sản phẩm chuẩn</h3><p data-editable>Hiện trạng [ ] · Mục tiêu [ ] · Điều kiện đo [ ]</p></div></div>
+              <div class="metric"><strong data-editable>[CHỈ SỐ]</strong><div><h3 data-editable>Chất lượng đầu ra</h3><p data-editable>Tiêu chuẩn [ ] · Phương pháp nghiệm thu [ ]</p></div></div>
+              <div class="metric"><strong data-editable>[CHỈ SỐ]</strong><div><h3 data-editable>Thời gian thiết lập hoặc đổi mã</h3><p data-editable>Phạm vi thao tác [ ] · Tay nghề vận hành [ ]</p></div></div>
+              <div class="metric"><strong data-editable>[CHỈ SỐ]</strong><div><h3 data-editable>Chi phí vận hành liên quan</h3><p data-editable>Kỳ tính [ ] · Giá đầu vào [ ] · Hệ số sử dụng [ ]</p></div></div>
+            </div>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Lợi ích định lượng cần nguồn và điều kiện áp dụng</span><span class="page-number">24 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 25: Kế hoạch chạy thử và bằng chứng">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">04 · Chạy thử và bằng chứng</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Proof of value · Kiểm chứng giá trị</div>
+          <h2 data-editable>Kế hoạch thử mẫu trước quyết định đầu tư</h2>
+          <div class="two-col wide-left" style="margin-top:24px">
+            <div>
+              <div class="media-slot" style="height:310px" data-image-slot><div class="slot-copy">Ảnh mẫu / bản vẽ / kết quả thử<small>Ẩn dữ liệu nhạy cảm trước khi sử dụng</small></div></div>
+              <div class="callout small" style="margin-top:18px" data-editable>[Kết luận thử mẫu chỉ áp dụng cho vật liệu, bản vẽ, dụng cụ và điều kiện đã ghi nhận]</div>
+            </div>
+            <div class="service-flow">
+              <div class="service-step"><div class="n">01</div><div><h3 data-editable>Xác nhận đầu vào</h3><p data-editable>[Bản vẽ, vật liệu, phôi, dung sai, sản lượng và tiêu chí bề mặt]</p></div></div>
+              <div class="service-step"><div class="n">02</div><div><h3 data-editable>Khóa điều kiện thử</h3><p data-editable>[Máy, cấu hình, dụng cụ, chương trình, người vận hành và môi trường]</p></div></div>
+              <div class="service-step"><div class="n">03</div><div><h3 data-editable>Đo và ghi nhận</h3><p data-editable>[Thiết bị đo, mẫu số, thời gian, phế phẩm và dữ liệu quá trình]</p></div></div>
+              <div class="service-step"><div class="n">04</div><div><h3 data-editable>Đối chiếu tiêu chí</h3><p data-editable>[Ngưỡng đạt, người xác nhận, điểm chưa đạt và hành động tiếp theo]</p></div></div>
+              <div class="service-step"><div class="n">05</div><div><h3 data-editable>Lưu bằng chứng</h3><p data-editable>[Biên bản, ảnh, file đo, chương trình và giới hạn sử dụng kết quả]</p></div></div>
+            </div>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Không ngoại suy kết quả thử ra ngoài điều kiện đã xác nhận</span><span class="page-number">25 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 26: Thông số kỹ thuật">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">05 · Thông số kỹ thuật</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Cấu hình chào bán</div>
+          <h2 data-editable>Thông số kỹ thuật của [MODEL]</h2>
+          <div class="spec-layout" style="margin-top:23px">
+            <table aria-label="Bảng thông số kỹ thuật">
+              <thead><tr><th>Thông số</th><th>Đơn vị</th><th data-editable>[MODEL]</th></tr></thead>
+              <tbody>
+                <tr><td data-editable>[Thông số 01]</td><td data-editable>[ĐVT]</td><td data-editable>[Giá trị]</td></tr>
+                <tr><td data-editable>[Thông số 02]</td><td data-editable>[ĐVT]</td><td data-editable>[Giá trị]</td></tr>
+                <tr><td data-editable>[Thông số 03]</td><td data-editable>[ĐVT]</td><td data-editable>[Giá trị]</td></tr>
+                <tr><td data-editable>[Thông số 04]</td><td data-editable>[ĐVT]</td><td data-editable>[Giá trị]</td></tr>
+                <tr><td data-editable>[Thông số 05]</td><td data-editable>[ĐVT]</td><td data-editable>[Giá trị]</td></tr>
+                <tr><td data-editable>[Thông số 06]</td><td data-editable>[ĐVT]</td><td data-editable>[Giá trị]</td></tr>
+                <tr><td data-editable>[Thông số 07]</td><td data-editable>[ĐVT]</td><td data-editable>[Giá trị]</td></tr>
+                <tr><td data-editable>[Kích thước thiết bị]</td><td>mm</td><td data-editable>[D × R × C]</td></tr>
+                <tr><td data-editable>[Khối lượng]</td><td>kg</td><td data-editable>[Giá trị]</td></tr>
+              </tbody>
+            </table>
+            <div>
+              <div class="media-slot spec-image" data-image-slot><div class="slot-copy">Bản vẽ kích thước / ảnh máy<small>Giữ nguyên ký hiệu và tỷ lệ hình</small></div></div>
+              <div class="callout small" data-editable>Thông số phải đối chiếu theo đúng hãng, model, mã cấu hình và tài liệu nhà sản xuất đang áp dụng.</div>
+            </div>
+          </div>
+          <p class="source-note" style="margin-top:22px" data-editable>Nguồn thông số: [TÊN TÀI LIỆU · PHIÊN BẢN · NGÀY]. Không tự chuyển đổi đơn vị nếu chưa ghi giá trị gốc và công thức.</p>
+        </main>
+        <footer class="page-footer"><span>Thông số không thay thế báo giá hoặc tài liệu cấu hình đã duyệt</span><span class="page-number">26 / 30</span></footer>
+      </section>
+
+      <section class="page blueprint" aria-label="Trang 27: Kích thước và yêu cầu mặt bằng">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">05 · Kích thước và mặt bằng</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Installation envelope · Không gian lắp đặt</div>
+          <h2 data-editable>Bản vẽ kích thước và điều kiện hạ tầng</h2>
+          <div class="two-col wide-left" style="margin-top:22px">
+            <div class="media-slot diagram-board" data-image-slot><div class="slot-copy">Bản vẽ kích thước chính thức<small>Mặt bằng · mặt đứng · vùng thao tác · vùng bảo trì</small></div></div>
+            <div class="dimension-notes">
+              <div class="dimension-note"><strong data-editable>[D × R × C]</strong><p data-editable>Kích thước tổng thể và phần nhô ra theo cấu hình</p></div>
+              <div class="dimension-note"><strong data-editable>[KHOẢNG HỞ]</strong><p data-editable>Không gian vận hành, thay dụng cụ và bảo trì</p></div>
+              <div class="dimension-note"><strong data-editable>[NỀN MÓNG]</strong><p data-editable>Tải nền, độ phẳng, neo máy và yêu cầu móng nếu có</p></div>
+              <div class="dimension-note"><strong data-editable>[ĐIỆN]</strong><p data-editable>Nguồn, công suất, bảo vệ, tiếp địa và chất lượng điện</p></div>
+              <div class="dimension-note"><strong data-editable>[HẠ TẦNG]</strong><p data-editable>Khí nén, nước, hút lọc, mạng và điều kiện môi trường</p></div>
+              <div class="dimension-note"><strong data-editable>[VẬN CHUYỂN]</strong><p data-editable>Lối vào, tải nâng, điểm cẩu và giới hạn đóng gói</p></div>
+            </div>
+          </div>
+          <p class="source-note" style="margin-top:18px" data-editable>Nguồn bản vẽ: [TÀI LIỆU · MODEL · CẤU HÌNH · PHIÊN BẢN]. Khảo sát hiện trường trước khi xác nhận.</p>
+        </main>
+        <footer class="page-footer"><span>Kích thước thực tế phụ thuộc model và tùy chọn</span><span class="page-number">27 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 28: Cấu hình và tùy chọn">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">05 · Cấu hình và phạm vi</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Phạm vi thiết bị</div>
+          <h2 data-editable>Cấu hình tiêu chuẩn và tùy chọn</h2>
+          <div class="config-columns" style="margin-top:26px">
+            <div class="config-column">
+              <h3 data-editable>Cấu hình tiêu chuẩn</h3>
+              <div class="config-row"><span class="n">01</span><span data-editable>[Bộ phận / chức năng]</span><span class="origin" data-editable>[Hãng / xuất xứ]</span></div>
+              <div class="config-row"><span class="n">02</span><span data-editable>[Bộ phận / chức năng]</span><span class="origin" data-editable>[Hãng / xuất xứ]</span></div>
+              <div class="config-row"><span class="n">03</span><span data-editable>[Bộ phận / chức năng]</span><span class="origin" data-editable>[Hãng / xuất xứ]</span></div>
+              <div class="config-row"><span class="n">04</span><span data-editable>[Bộ phận / chức năng]</span><span class="origin" data-editable>[Hãng / xuất xứ]</span></div>
+              <div class="config-row"><span class="n">05</span><span data-editable>[Bộ phận / chức năng]</span><span class="origin" data-editable>[Hãng / xuất xứ]</span></div>
+              <div class="config-row"><span class="n">06</span><span data-editable>[Bộ phận / chức năng]</span><span class="origin" data-editable>[Hãng / xuất xứ]</span></div>
+              <div class="config-row"><span class="n">07</span><span data-editable>[Bộ phận / chức năng]</span><span class="origin" data-editable>[Hãng / xuất xứ]</span></div>
+            </div>
+            <div class="config-column optional">
+              <h3 data-editable>Tùy chọn theo nhu cầu</h3>
+              <div class="config-row"><span class="n">A</span><span data-editable>[Tùy chọn / phụ kiện]</span><span class="origin" data-editable>[Điều kiện]</span></div>
+              <div class="config-row"><span class="n">B</span><span data-editable>[Tùy chọn / phụ kiện]</span><span class="origin" data-editable>[Điều kiện]</span></div>
+              <div class="config-row"><span class="n">C</span><span data-editable>[Tùy chọn / phụ kiện]</span><span class="origin" data-editable>[Điều kiện]</span></div>
+              <div class="config-row"><span class="n">D</span><span data-editable>[Tùy chọn / phụ kiện]</span><span class="origin" data-editable>[Điều kiện]</span></div>
+              <div class="config-row"><span class="n">E</span><span data-editable>[Tùy chọn / phụ kiện]</span><span class="origin" data-editable>[Điều kiện]</span></div>
+              <div class="callout small" style="margin-top:24px" data-editable>Phạm vi cuối cùng theo báo giá, hợp đồng và phụ lục đã được phê duyệt.</div>
+            </div>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Đối chiếu mã hàng, hãng, xuất xứ và điều kiện áp dụng</span><span class="page-number">28 / 30</span></footer>
+      </section>
+
+      <section class="page light" aria-label="Trang 29: Triển khai và hậu mãi">
+        <div class="brand-rail"></div>
+        <header class="page-header"><span class="running-title">05 · Triển khai và hậu mãi</span><img class="logo" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC"></header>
+        <main class="page-main">
+          <div class="section-label">Phạm vi đồng hành</div>
+          <h2 data-editable>Từ khảo sát đến vận hành ổn định</h2>
+          <div class="two-col wide-right" style="margin-top:24px">
+            <div>
+              <p class="lead muted" data-editable>Điền rõ trách nhiệm, đầu ra và điều kiện hoàn thành của từng bước theo giao dịch cụ thể.</p>
+              <div class="media-slot" style="height:320px; margin-top:24px" data-image-slot><div class="slot-copy">Ảnh triển khai / đào tạo<small>Chỉ sử dụng khi có quyền</small></div></div>
+              <div class="callout small" style="margin-top:20px" data-editable>[Điều kiện mặt bằng, điện, khí, nước, an toàn và dữ liệu sản xuất]</div>
+            </div>
+            <div class="service-flow">
+              <div class="service-step"><div class="n">01</div><div><h3 data-editable>Khảo sát nhu cầu và hiện trường</h3><p data-editable>[Đầu vào, người tham gia và kết quả cần xác nhận]</p></div></div>
+              <div class="service-step"><div class="n">02</div><div><h3 data-editable>Xác nhận cấu hình và phạm vi</h3><p data-editable>[Model, phụ kiện, vật tư, chứng từ và điểm loại trừ]</p></div></div>
+              <div class="service-step"><div class="n">03</div><div><h3 data-editable>Lắp đặt, căn chỉnh và chạy thử</h3><p data-editable>[Điều kiện không tải, có tải và tiêu chí nghiệm thu]</p></div></div>
+              <div class="service-step"><div class="n">04</div><div><h3 data-editable>Đào tạo vận hành</h3><p data-editable>[Đối tượng, nội dung và hồ sơ bàn giao]</p></div></div>
+              <div class="service-step"><div class="n">05</div><div><h3 data-editable>Bảo hành, bảo trì và hỗ trợ</h3><p data-editable>[Thời hạn, mức dịch vụ, phạm vi và trường hợp loại trừ]</p></div></div>
+            </div>
+          </div>
+        </main>
+        <footer class="page-footer"><span>Cam kết cuối cùng theo hồ sơ giao dịch được phê duyệt</span><span class="page-number">29 / 30</span></footer>
+      </section>
+
+      <section class="page dark" aria-label="Trang 30: Kết thúc và liên hệ">
+        <div class="brand-rail"></div>
+        <img class="logo-cover" src="assets/logo-nam-hai-cnc-transparent.png" alt="Logo Nam Hải CNC">
+        <div class="closing-copy">
+          <div class="eyebrow">Nam Hải CNC</div>
+          <h1 data-editable>Sẵn sàng xác nhận cấu hình phù hợp cho bài toán của Quý khách</h1>
+          <div class="next-step"><div class="n">01</div><p class="lead" data-editable>[Bước tiếp theo: khảo sát hiện trường / gửi mẫu gia công / chạy thử / xác nhận cấu hình]</p></div>
+        </div>
+        <div class="closing-contact">
+          <div><strong data-editable>[HỌ TÊN · CHỨC DANH]</strong><br><span data-editable>[SỐ ĐIỆN THOẠI] · [EMAIL]</span></div>
+          <div><strong data-editable>CÔNG TY TNHH THƯƠNG MẠI VÀ DỊCH VỤ NAM HẢI CNC</strong><br><span data-editable>[ĐỊA CHỈ · WEBSITE]</span></div>
+        </div>
+        <div class="motto" data-editable>Nhanh Hơn – Tốt Hơn – Tiết Kiệm Hơn</div>
+        <footer class="page-footer"><span>Tài liệu cần được duyệt trước khi sử dụng đối ngoại</span><span class="page-number">30 / 30</span></footer>
+      </section>
+
+    </div>
+  </main>
+
+  <nav class="controls" aria-label="Điều khiển tài liệu">
+    <button type="button" id="prevBtn" title="Trang trước (←)">←</button>
+    <span class="counter" id="counter">01 / 30</span>
+    <button type="button" id="nextBtn" title="Trang sau (→)">→</button>
+    <button type="button" id="editBtn" title="Bật/tắt chỉnh sửa (E)">Chỉnh sửa</button>
+    <button type="button" id="downloadBtn" title="Tải bản HTML đã chỉnh sửa">Tải HTML</button>
+    <button type="button" id="printBtn" title="In hoặc xuất PDF (P)">In / PDF</button>
+    <button type="button" id="fullBtn" title="Toàn màn hình (F)">Toàn màn hình</button>
+  </nav>
+  <div class="help">← → đổi trang · E chỉnh chữ · nhấp đúp vùng ảnh để thay ảnh · P in/PDF</div>
+  <input id="imagePicker" type="file" accept="image/*">
+
+  <script>
+    (() => {
+      const stage = document.getElementById('stage');
+      const pages = [...document.querySelectorAll('.page')];
+      const counter = document.getElementById('counter');
+      const editBtn = document.getElementById('editBtn');
+      const imagePicker = document.getElementById('imagePicker');
+      let current = 0;
+      let editing = false;
+      let activeSlot = null;
+
+      function fitStage() {
+        const margin = 22;
+        const scale = Math.min((innerWidth - margin * 2) / 794, (innerHeight - margin * 2) / 1123);
+        stage.style.transform = `scale(${Math.max(0.1, scale)})`;
+      }
+      function show(index, updateHash = true) {
+        current = (index + pages.length) % pages.length;
+        pages.forEach((page, i) => page.classList.toggle('active', i === current));
+        counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(pages.length).padStart(2, '0')}`;
+        if (updateHash) history.replaceState(null, '', `#${current + 1}`);
+      }
+      function setEditing(next) {
+        editing = next;
+        document.body.classList.toggle('editing', editing);
+        editBtn.classList.toggle('active', editing);
+        editBtn.textContent = editing ? 'Đang sửa' : 'Chỉnh sửa';
+        document.querySelectorAll('[data-editable]').forEach(el => {
+          el.contentEditable = editing ? 'true' : 'false';
+          el.spellcheck = editing;
+        });
+      }
+      function useImage(file, slot) {
+        if (!file || !file.type.startsWith('image/') || !slot) return;
+        const reader = new FileReader();
+        reader.onload = event => {
+          slot.style.backgroundImage = `linear-gradient(0deg, rgba(4,13,22,0.12), rgba(4,13,22,0.12)), url("${event.target.result}")`;
+          slot.classList.add('filled');
+        };
+        reader.readAsDataURL(file);
+      }
+
+      document.querySelectorAll('[data-image-slot]').forEach(slot => {
+        slot.addEventListener('dblclick', () => {
+          activeSlot = slot;
+          imagePicker.value = '';
+          imagePicker.click();
+        });
+        slot.addEventListener('dragover', event => {
+          event.preventDefault();
+          event.dataTransfer.dropEffect = 'copy';
+        });
+        slot.addEventListener('drop', event => {
+          event.preventDefault();
+          useImage(event.dataTransfer.files[0], slot);
+        });
+      });
+
+      imagePicker.addEventListener('change', () => useImage(imagePicker.files[0], activeSlot));
+      document.getElementById('prevBtn').addEventListener('click', () => show(current - 1));
+      document.getElementById('nextBtn').addEventListener('click', () => show(current + 1));
+      editBtn.addEventListener('click', () => setEditing(!editing));
+      document.getElementById('printBtn').addEventListener('click', () => window.print());
+      document.getElementById('fullBtn').addEventListener('click', () => {
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+        else document.exitFullscreen?.();
+      });
+      document.getElementById('downloadBtn').addEventListener('click', () => {
+        setEditing(false);
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelectorAll('.page').forEach((page, i) => page.classList.toggle('active', i === 0));
+        clone.querySelector('body')?.classList.remove('editing');
+        clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+        const html = '<!doctype html>\n' + clone.outerHTML;
+        const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'TAI_LIEU_GIOI_THIEU_SAN_PHAM_NAM_HAI_CNC_A4.html';
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+      });
+
+      addEventListener('keydown', event => {
+        const isTyping = event.target?.isContentEditable;
+        if (isTyping && event.key !== 'Escape') return;
+        if (['ArrowRight', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); show(current + 1); }
+        if (['ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); show(current - 1); }
+        if (event.key === 'Home') show(0);
+        if (event.key === 'End') show(pages.length - 1);
+        if (event.key.toLowerCase() === 'e') setEditing(!editing);
+        if (event.key.toLowerCase() === 'p') window.print();
+        if (event.key.toLowerCase() === 'f') document.getElementById('fullBtn').click();
+        if (event.key === 'Escape' && editing) setEditing(false);
+      });
+
+      addEventListener('resize', fitStage);
+      const hashPage = Number(location.hash.replace('#', ''));
+      show(Number.isFinite(hashPage) && hashPage >= 1 && hashPage <= pages.length ? hashPage - 1 : 0, false);
+      fitStage();
+    })();
+  </script>
+</body>
+</html>

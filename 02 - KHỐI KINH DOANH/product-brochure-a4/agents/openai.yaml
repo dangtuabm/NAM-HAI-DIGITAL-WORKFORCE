@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tài liệu giới thiệu sản phẩm A4"
+  short_description: "Tạo tài liệu A4 30 trang chuẩn Nam Hải CNC"
+  default_prompt: "Use $product-brochure-a4 to create a 30-page A4 portrait product introduction document for Nam Hải CNC."

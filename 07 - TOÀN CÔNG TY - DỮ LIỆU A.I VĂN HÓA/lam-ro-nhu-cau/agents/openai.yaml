@@ -1,0 +1,6 @@
+interface:
+  display_name: "LÀM RÕ NHU CẦU"
+  short_description: "Làm rõ đề bài bằng câu hỏi gợi ý và chốt yêu cầu"
+  default_prompt: "Dùng $lam-ro-nhu-cau để rà soát đề bài của tôi, hỏi phần còn thiếu và viết lại đề bài để tôi xác nhận."
+policy:
+  allow_implicit_invocation: true

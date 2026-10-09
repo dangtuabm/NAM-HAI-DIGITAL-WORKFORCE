@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tully press brake tooling drawing layout - A4 landscape</title>
+  <style>
+    @page { size: A4 landscape; margin: 0; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #fff; color: #111; font-family: Arial, "Noto Sans", sans-serif; }
+    .sheet { position: relative; width: 297mm; height: 210mm; overflow: hidden; background: #fff; }
+    .frame { position: absolute; inset: 4.5mm; border: .25mm solid #111; }
+    .view { position: absolute; color: #777; font-size: 8pt; text-align: center; }
+    .main-view { left: 10mm; top: 14mm; width: 166mm; height: 166mm; }
+    .main-view svg { width: 100%; height: 100%; }
+    .preview-main { fill: #aba9a5; stroke: #111; stroke-width: .65; }
+    .preview-side { fill: #55534f; stroke: #111; stroke-width: .65; }
+    .preview-dim { stroke: #111; stroke-width: .32; fill: none; }
+    .preview-label { fill: #777; font: 4px Arial, sans-serif; }
+    .spec { position: absolute; left: 181mm; top: 19mm; width: 94mm; min-height: 48mm; font-size: 9.7pt; line-height: 1.15; }
+    .spec-logo { display: block; width: 55mm; height: 21mm; object-fit: cover; object-position: center; }
+    .spec-line { min-height: 5mm; white-space: nowrap; }
+    .spec-line strong { font-weight: 600; }
+    .spec .muted { color: #777; font-size: 8pt; }
+    .notes { position: absolute; left: 8mm; bottom: 6.3mm; width: 177mm; font-size: 7.5pt; line-height: 1.18; }
+    .notes strong { display: block; font-size: 9pt; margin-bottom: .5mm; }
+    .notes div { white-space: nowrap; }
+    .note-status { font-size: 6.6pt; color: #555; margin-top: .6mm; }
+    .titleblock { position: absolute; right: 4.5mm; bottom: 4.5mm; width: 102mm; height: 73mm; border-collapse: collapse; table-layout: fixed; font-size: 7.8pt; }
+    .titleblock th, .titleblock td { border: .22mm solid #111; padding: .4mm 1mm; vertical-align: middle; overflow: hidden; }
+    .titleblock th { font-weight: 400; text-align: center; }
+    .titleblock td { text-align: center; }
+    .titleblock .remark { text-align: left; }
+    .titleblock .small { font-size: 6.8pt; }
+    .titleblock .brand { font-size: 8pt; font-weight: 600; }
+    .titleblock .mini-logo { display: block; width: 39mm; height: 11mm; object-fit: cover; object-position: center; margin: auto; }
+    .titleblock .date { font-size: 7pt; }
+    .status { position: absolute; top: 5.5mm; left: 7mm; font-size: 7pt; font-weight: 600; border: .2mm solid #111; padding: 1mm 1.5mm; }
+    @media screen { body { background: #e9edf2; } .sheet { box-shadow: 0 2mm 8mm #0002; margin: 10mm auto; } }
+  </style>
+</head>
+<body>
+  <!-- Layout template only. Replace preview geometry with sourced tool geometry, dimensions and views.
+       Keep original Chinese/English labels from the selected reference; do not translate them into Vietnamese.
+       Position auxiliary views case by case, leaving the main view and dimensions the most space.
+       Set drawing date in Asia/Saigon at creation/edit time and freeze it in the exported file.
+       Leave Part Name, Weight and Segment Size blank unless the user requests them.
+       When copying this HTML elsewhere, embed the logo or copy it alongside with a working relative path. -->
+  <main class="sheet">
+    <div class="frame"></div>
+    <div class="status">PENDING TECHNICAL APPROVAL</div>
+    <section class="view main-view" aria-label="Main view layout preview">
+      <svg viewBox="0 0 160 160" role="img" aria-label="Layout preview only, replace with verified geometry">
+        <path class="preview-main" d="M69 13 H88 V35 H83 V46 H96 V66 L83 79 V132 L80 149 L76 149 L73 132 V79 L60 66 V46 H69 V35 H65 V13 Z"/>
+        <path class="preview-side" d="M83 46 H96 V66 L83 79 Z"/>
+        <path class="preview-dim" d="M48 13 H64 M48 149 H74 M51 13 V149 M48 13 l6 -2 m-6 2 l6 2 M48 149 l6 -2 m-6 2 l6 2 M70 8 H88 M70 5 V15 M88 5 V15 M70 8 l4 -2 m-4 2 l4 2 M88 8 l-4 -2 m4 2 l-4 2"/>
+        <text x="29" y="156" class="preview-label">LAYOUT PREVIEW - REPLACE WITH VERIFIED GEOMETRY</text>
+      </svg>
+    </section>
+
+    <section class="spec" aria-label="Hình thông số dao cối">
+      <img class="spec-logo" src="../assets/NHC-_1_.jpg" alt="Logo NHCTECH từ NHC-_1_.jpg">
+      <div class="spec-line"><strong>L:</strong> &nbsp;&nbsp; <strong>Drawing date:</strong></div>
+      <div class="spec-line"><strong>H:</strong> &nbsp;&nbsp; <strong>A:</strong> &nbsp;&nbsp; <strong>V:</strong></div>
+      <div class="spec-line"><strong>MAX:</strong> <span class="muted">verified rated load only</span></div>
+      <div class="spec-line muted">Show applicable, sourced values and units only.</div>
+    </section>
+
+    <section class="notes" aria-label="Technical requirements copied from reference">
+      <strong>Technical requirements:</strong>
+      <div>1. Group exchange docking, interface error should be ≤ 0.03mm</div>
+      <div>2. The parallelism and perpendicularity errors should be ≤ 0.03mm</div>
+      <div>3. Sharp angles are all rounded at C0.5/R0.5, and the notch R transitions smoothly</div>
+      <div>4. Unmarked dimensional tolerance implemented in accordance with GB/T18/04-F</div>
+      <div>5. Symmetry tolerance shall be implemented according to GB-T1184-H level</div>
+      <div class="note-status">Copied from reference drawing; verify applicability and standard identifiers before manufacture.</div>
+    </section>
+
+    <table class="titleblock" aria-label="Drawing title block">
+      <colgroup><col style="width:21%"><col style="width:26%"><col style="width:19%"><col style="width:34%"></colgroup>
+      <tbody>
+        <tr><th colspan="2">长度(mm)/数量(支)<br><span class="small">length(mm)/Qty</span></th><td colspan="2"></td></tr>
+        <tr><th colspan="2">分段尺寸<br><span class="small">Segment size</span></th><td colspan="2"></td></tr>
+        <tr><th>表面处理<br><span class="small">Surface treatment</span></th><td></td><th>包装<br><span class="small">Packaging</span></th><td></td></tr>
+        <tr><th>订单日期<br><span class="small">Order date</span></th><td></td><th>交货日期<br><span class="small">Delivery date</span></th><td></td></tr>
+        <tr><th>材料<br><span class="small">Material</span></th><td></td><th>备注<br><span class="small">Remark</span></th><td></td></tr>
+        <tr><th>淬火硬度<br><span class="small">Hardness</span></th><td></td><th>名称<br><span class="small">Name</span></th><td></td></tr>
+        <tr><th>质量(千克/米)<br><span class="small">Quality(Kg/m)</span></th><td></td><th>图号<br><span class="small">DWG No.</span></th><td></td></tr>
+        <tr><th>定稿日期<br><span class="small">Filing date</span></th><td class="date"></td><td colspan="2" rowspan="2" class="brand"><img class="mini-logo" src="../assets/NHC-_1_.jpg" alt="NHCTECH">Press Brake tools</td></tr>
+        <tr><th>设计者<br><span class="small">Designer</span></th><td></td></tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

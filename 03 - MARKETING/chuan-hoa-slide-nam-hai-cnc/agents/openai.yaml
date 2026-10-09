@@ -1,0 +1,6 @@
+interface:
+  display_name: "XÂY DỰNG SLIDE CHUẨN HÓA NAM HẢI CNC"
+  short_description: "Chuẩn hóa slide theo mẫu Nam Hải CNC"
+  default_prompt: "Dùng $chuan-hoa-slide-nam-hai-cnc để tạo hoặc chuẩn hóa slide theo mẫu Nam Hải CNC."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Làm phẳng dữ liệu"
+  short_description: "Chuyển hồ sơ thành dữ liệu tra cứu, giữ nguyên nguồn"
+  default_prompt: "Dùng $lam-phang-du-lieu để chuyển tài liệu này thành dữ liệu HTML tra cứu, giữ nguyên nguồn."
+policy:
+  allow_implicit_invocation: true
